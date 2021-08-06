@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="img/favicon_pokeball.png" sizes="96x96">
+    <title>Pokedex Basti</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body onload="init()">
+
+    <header>
+
+        <div class="header-images">
+            <img class="height-60" src="img/favicon_pokeball.png">
+            <img src="img/pokemon-logo.png">
+            <img class="height-60 clickable" src="img/search.svg">
+        </div>
+
+    </header>
+
+    <section class="pokecard-overview">
+
+        <div class="search-container">
+            <input id="Search-input" type="text" placeholder="Suche Pokemon...">
+            <img onclick="searchPokemon()" class="clickable" src="img/search.svg" alt="Suche" title="Suche starten">
+        </div>
+
+        <div class="number-loaded">Es sind insgesamt <span id="Number-loaded-pokemon">20</span> Pokemon geladen.</div>
+
+        <div id="Number-filtered" class="number-loaded d-none">Es wurden <span id="Number-filtered-pokemon"></span> Pokemon gefunden.</div>
+
+        <div id="Pokemon-cards" class="pokemon-cards-container">         
+             
+        </div>
+
+        <div class="button-more-poke-container">            
+            <button onclick="morePokemon()">mehr Pokemon</button>
+        </div>
+
+        <div id="Arrow-up-button" class="arrow-up-container d-none" onclick="goToTop()">
+            <i class="fas fa-arrow-up" alt="Up"></i>
+        </div>
+
+    </section>
+
+    <section id="Pokedex-lightbox" class="pokedex-lightbox d-none">
+
+        <div id="Arrow-left-container" class="arrow-left-container buttons-continue" >
+            <i class="fas fa-arrow-left" alt="Before"></i>
+        </div>
+
+        <div id="Pokedex" class="pokedex">
+            <div class="background">
+                <img class="pokedex-img" src="img/pokedex-bg.png">
+                <div class="close-btn-container" onclick="closePokedex()">
+                    <i class="fas fa-times"></i>                    
+                </div>                
+            </div>
+            <div id="Pokedex-content" class="pokedex-content">
+                
+            </div>
+        </div>
+
+        <div id="Arrow-right-container" class="arrow-right-container buttons-continue">
+            <i class="fas fa-arrow-right" alt="Next"></i>
+        </div>
+
+    </section>
+    
+    <footer>
+
+        <div class="copyright">
+            <div>© by Bastian Harttung</div>
+            <a href="https://pokeapi.co/" target="_blank">API by Pokeapi.co</a>
+        </div>
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
