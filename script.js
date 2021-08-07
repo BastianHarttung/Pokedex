@@ -56,6 +56,7 @@ async function init() {
         allPokemon.push(jsonResponse);
     }    
     
+    document.getElementById('Loading').classList.add('d-none');
     showPokecardOverview(allPokemon);
    
 }

@@ -166,6 +166,11 @@ header{
     font-weight: 700;
 }
 
+#Loading{
+    font-size: 30px;
+    font-weight: 600;
+    margin: 50px 5px;
+}
 
 /* Pokemon Cards */
 .pokemon-cards-container{
