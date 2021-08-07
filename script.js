@@ -1,5 +1,6 @@
 let allPokemon =[];
 let filteredPokemon =[];
+let loadedPokemon =[];
 
 let cards = [
     'img/pokecard-black.png',
@@ -23,8 +24,14 @@ Number.prototype.pad = function(size) {
   }
 
 /* Gibt Zufallszahl aus */
-function getRandomNr() {
-    return Math.floor(Math.random() * 897 + 1);
+function getRandomPokemonId() {
+    let randomNumber = Math.floor(Math.random() * 897 + 1);
+    if(loadedPokemon.indexOf(randomNumber)==-1){
+        loadedPokemon.push(randomNumber);
+        return randomNumber;
+    }else{        
+        return getRandomPokemonId();
+    }    
 }
 
 /* Scrolling */  
@@ -44,7 +51,7 @@ function goToTop(){
 async function init() {        
 
     for(let i = 1; i <= 20; i++){
-        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomNr()}`);
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomPokemonId()}`);
         let jsonResponse = await response.json();
         allPokemon.push(jsonResponse);
     }    
@@ -111,18 +118,23 @@ function generateCards(allPokemon,j){
     }
 }
 
+
 async function morePokemon(){
     let allPokemonLength = allPokemon.length+1;
 
     for(let i = allPokemonLength; i < allPokemonLength+20; i++){
-        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomNr()}`);
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomPokemonId()}`);
         let jsonResponse = await response.json();
         allPokemon.push(jsonResponse);
     }    
 
     document.getElementById('Pokemon-cards').innerHTML ='';
 
-    showPokecardOverview(allPokemon);
+    if(filteredPokemon.length==0){
+        showPokecardOverview(allPokemon);
+    } else{
+        searchPokemon();        
+    }
 }
 
 
