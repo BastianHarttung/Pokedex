@@ -121,7 +121,10 @@ function generateCards(allPokemon,j){
 
 
 async function morePokemon(){
+
     let allPokemonLength = allPokemon.length+1;
+
+    document.getElementById('Loading').classList.remove('d-none');
 
     for(let i = allPokemonLength; i < allPokemonLength+20; i++){
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomPokemonId()}`);
@@ -136,6 +139,8 @@ async function morePokemon(){
     } else{
         searchPokemon();        
     }
+
+    document.getElementById('Loading').classList.add('d-none');
 }
 
 
