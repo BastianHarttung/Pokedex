@@ -112,6 +112,17 @@ header{
 .height-40{
     max-height: 40px !important;
 }
+@media(max-width:600px){
+    .header-images{
+        width: 95%;        
+    }
+    .header-images img{
+        max-height: 45px;
+    }
+    .height-40{
+        max-height: 30px !important;
+    }
+}
 
 /* ------------------Section Overview------------ */
 
@@ -267,6 +278,9 @@ header{
 @media(max-width: 1300px){
     .pokemon-cards-container{
         width: 100%;
+    }
+    .pokecard-overview{
+        padding: 30px;
     }
 }
 
@@ -554,8 +568,6 @@ header{
         font-size: 20px;       
     }
 }
-
-
 
 
 /* ------------------------Footer----------- */
