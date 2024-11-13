@@ -6,17 +6,17 @@ import { Pokemon, NamedAPIResourceList } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 import Header from './components/Header/Header.tsx';
-import { fetchPokemonByName, fetchPokemonList } from './api/pokemonAPI.ts';
+import { fetchPokemonByName, fetchPokemonList, fetchPokemonsById } from './api/pokemonAPI.ts';
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
 
 
 function App() {
-  const [allPokemonList, setAllPokemonList] = useState<NamedAPIResourceList | null>();
+  const [allPokemonList, setAllPokemonList] = useState<NamedAPIResourceList | null>(null);
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
-
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
+  const displayPokemon = filteredPokemon.length > 0 ? filteredPokemon : fetchedPokemons;
 
   const [isPokedexOpen, setIsPokedexOpen] = useState<boolean>(true);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
@@ -45,25 +45,35 @@ function App() {
 
   const closePokedex = () => setIsPokedexOpen(false);
 
-  const displayPokemon = filteredPokemon.length > 0 ? filteredPokemon : fetchedPokemons;
 
   const goToTop = () => {
     window.scrollTo(0, 0);
   };
 
-  const loadNewPokemons = () => {
+  const loadMorePokemons = () => {
   };
 
   const searchPokemon = () => {
   };
 
   useEffect(() => {
-    const loadPokemonList = async () => {
-      const pokemonList = await fetchPokemonList();
-      setAllPokemonList(pokemonList);
-    };
-    loadPokemonList();
-  }, []);
+    if (allPokemonList) {
+      setIsLoading(true);
+      fetchPokemonsById(20).then((pokemons) => {
+          setFetchedPokemons(pokemons);
+          setIsLoading(false);
+        },
+      );
+    } else {
+      setIsLoading(true);
+      fetchPokemonList().then((list) => {
+        if (list) {
+          setAllPokemonList(list);
+          setIsLoading(false);
+        }
+      });
+    }
+  }, [allPokemonList]);
 
 
   return (
@@ -109,7 +119,7 @@ function App() {
         </div>}
 
         <div className="button-more-poke-container">
-          <button onClick={loadNewPokemons}>mehr Pokemon</button>
+          <button onClick={loadMorePokemons}>mehr Pokemon</button>
         </div>
 
         <div id="Arrow-up-button"

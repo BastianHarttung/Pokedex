@@ -12,7 +12,7 @@ export const fetchPokemonList = async () => {
   }
 };
 
-export const fetchPokemonById = async (count: number) => {
+export const fetchPokemonsById = async (count: number) => {
   const promises = Array.from({length: count}, async () => {
     const randomId = Math.floor(Math.random() * 1000) + 1;
     return await api.getPokemonById(randomId);
