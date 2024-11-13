@@ -1,9 +1,10 @@
 import './App.scss';
 import { useState } from 'react';
+import { IoMdSearch } from 'react-icons/io';
+import { FaArrowUp } from 'react-icons/fa';
 import { Pokemon } from './interfaces/interfaces.ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonLogo from './assets/images/pokemon-logo.png';
-import { IoMdSearch } from 'react-icons/io';
 
 
 function App() {
@@ -91,7 +92,7 @@ function App() {
 
 
   return (
-    <>
+    <div style={{width:'100%'}}>
       <header className="header">
         <div className="header-images">
           <img src={Pokeball}
@@ -109,15 +110,10 @@ function App() {
           <input id="Search-input"
                  type="text"
                  placeholder="Suche Pokemon..."/>
-          <IoMdSearch size={40}
+          <IoMdSearch size={35}
                       className="search-icon_input"
                       title="Suche starten"
                       onClick={searchPokemon}/>
-          {/*<img onClick={searchPokemon}*/}
-          {/*     className="clickable"*/}
-          {/*     src="img/search.svg"*/}
-          {/*     alt="Suche"*/}
-          {/*     title="Suche starten"/>*/}
         </div>
 
         <div className="number-loaded">
@@ -133,7 +129,11 @@ function App() {
              className="pokemon-cards-container">
         </div>
 
-        <div id="Loading"><img className="rotate" src="img/favicon_pokeball.png" alt="Loading..."/></div>
+        <div id="Loading">
+          <img className="rotate"
+               src={Pokeball}
+               alt="Loading..."/>
+        </div>
 
         <div className="button-more-poke-container">
           <button onClick={morePokemon}>mehr Pokemon</button>
@@ -142,40 +142,40 @@ function App() {
         <div id="Arrow-up-button"
              className="arrow-up-container d-none"
              onClick={goToTop}>
-          <i className="fas fa-arrow-up" title="Up"></i>
+          <FaArrowUp />
         </div>
 
       </section>
 
-      <section id="Pokedex-lightbox"
-               className="pokedex-lightbox d-none">
-        <div id="Arrow-left-container"
-             className="arrow-left-container buttons-continue">
-          <i className="fas fa-arrow-left"
-             title="Before"></i>
-        </div>
+      {/*<section id="Pokedex-lightbox"*/}
+      {/*         className="pokedex-lightbox d-none">*/}
+      {/*  <div id="Arrow-left-container"*/}
+      {/*       className="arrow-left-container buttons-continue">*/}
+      {/*    <i className="fas fa-arrow-left"*/}
+      {/*       title="Before"></i>*/}
+      {/*  </div>*/}
 
-        <div id="Pokedex" className="pokedex">
-          <div className="background">
-            <img className="pokedex-img"
-                 src="img/pokedex-bg.png"
-                 alt="pokedex-bg"/>
-            <div className="close-btn-container"
-                 onClick={closePokedex}>
-              <i className="fas fa-times"></i>
-            </div>
-          </div>
+      {/*  <div id="Pokedex" className="pokedex">*/}
+      {/*    <div className="background">*/}
+      {/*      <img className="pokedex-img"*/}
+      {/*           src="img/pokedex-bg.png"*/}
+      {/*           alt="pokedex-bg"/>*/}
+      {/*      <div className="close-btn-container"*/}
+      {/*           onClick={closePokedex}>*/}
+      {/*        <i className="fas fa-times"></i>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
 
-          <div id="Pokedex-content"
-               className="pokedex-content">
-          </div>
-        </div>
+      {/*    <div id="Pokedex-content"*/}
+      {/*         className="pokedex-content">*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
 
-        <div id="Arrow-right-container"
-             className="arrow-right-container buttons-continue">
-          <i className="fas fa-arrow-right" title="Next"></i>
-        </div>
-      </section>
+      {/*  <div id="Arrow-right-container"*/}
+      {/*       className="arrow-right-container buttons-continue">*/}
+      {/*    <i className="fas fa-arrow-right" title="Next"></i>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
 
       <footer className="footer">
         <div className="copyright">
@@ -183,7 +183,7 @@ function App() {
           <a href="https://pokeapi.co/" target="_blank">API by Pokeapi.co</a>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
 

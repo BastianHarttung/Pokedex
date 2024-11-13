@@ -2,6 +2,7 @@
 
 .header {
   background-color: var(--color_light-red);
+  box-sizing: border-box;
   width: 100%;
   padding: 11px;
   display: flex;
@@ -40,7 +41,7 @@
 /* ------------------Section Overview------------ */
 
 .pokecard-overview {
-  background-color: var(--light-yellow);
+  background-color: var(--color_light-yellow);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -69,9 +70,9 @@
 }
 
 .search-icon_input {
-  height: 35px;
   position: absolute;
   right: 0;
+  cursor: pointer;
   padding: 5px;
   opacity: 0.6;
 }
@@ -214,7 +215,7 @@
 
 /* Button More ----------------------*/
 .button-more-poke-container button {
-  background-color: var(--light-red);
+  background-color: var(--color_light-red);
   font-size: 20px;
   font-weight: 100;
   padding: 10px;
@@ -225,12 +226,12 @@
 }
 
 .button-more-poke-container button:hover {
-  background-color: var(--red);
+  background-color: var(--color_red);
 }
 
 /* Arrow Up ------------------------*/
 .arrow-up-container {
-  background-color: var(--light-red);
+  background-color: var(--color_light-red);
   width: 50px;
   height: 50px;
   font-size: 35px;
@@ -330,7 +331,7 @@
 }
 
 .close-btn-container {
-  background-color: var(--red);
+  background-color: var(--color_red);
   width: 50px;
   height: 50px;
   border: 3px solid black;
@@ -358,12 +359,12 @@
 }
 
 .close-btn-container:hover .fa-times::before {
-  color: var(--red);
+  color: var(--color_red);
 }
 
 /* Buttons continue ------------------------- */
 .buttons-continue {
-  background-color: var(--green);
+  background-color: var(--color_green);
   width: 50px;
   height: 50px;
   border: 3px solid black;
@@ -398,7 +399,7 @@
 
 .buttons-continue:hover .fa-arrow-left::before,
 .buttons-continue:hover .fa-arrow-right::before {
-  color: var(--green);
+  color: var(--color_green);
 }
 
 @media(max-width: 900px) {
@@ -516,7 +517,7 @@
 /* ---------Footer-------------------- */
 
 .footer {
-  background-color: var(--light-green);
+  background-color: var(--color_light-green);
   height: 60px;
   color: #707070;
   display: flex;
