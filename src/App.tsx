@@ -1,24 +1,39 @@
 import './App.scss';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { FaArrowUp } from 'react-icons/fa';
-import { Pokemon } from './interfaces/interfaces.ts';
+import { IoClose } from 'react-icons/io5';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonLogo from './assets/images/pokemon-logo.png';
+import PokedexBG from './assets/images/pokedex-bg.png';
+import { Pokemon } from 'pokenode-ts';
+import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 
 
 function App() {
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
-  const [loadedPokemonIds, setLoadedPokemonIds] = useState<string[]>([]);
+
+  const [loadedPokemonIds, setLoadedPokemonIds] = useState<number[]>([]);
   const [allPokemonList, setAllPokemonList] = useState<[]>([]);
 
+  const [searchString, setSearchString] = useState<string>('');
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isPokedexOpen, setIsPokedexOpen] = useState(false);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchString(value);
+  };
+
   const showLoadingSpinner = () => {
-    // document.getElementById('Loading').classList.remove('d-none');
+    setIsLoading(true);
   };
 
   const hideLoadingSpinner = () => {
-    // document.getElementById('Loading').classList.add('d-none');
+    setIsLoading(false);
   };
 
   const clearResults = () => {
@@ -28,9 +43,9 @@ function App() {
   const searchPokemon = () => {
     // let search = document.getElementById('Search-input').value;
     // search = search.toLowerCase();
-    //
-    // showLoadingSpinner();
-    //
+
+    showLoadingSpinner();
+
     // if (search === '') {
     //   filteredPokemon = [];
     //   clearResults();
@@ -62,9 +77,9 @@ function App() {
 
   const morePokemon = () => {
     // let allPokemonLength = fetchedPokemon.length + 1;
-    //
-    // showLoadingSpinner();
-    //
+
+    showLoadingSpinner();
+
     // for (let i = allPokemonLength; i < allPokemonLength + 20; i++) {
     //   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandomPokemonId()}`);
     //   let jsonResponse = await response.json();
@@ -82,8 +97,13 @@ function App() {
     // hideLoadingSpinner();
   };
 
+  const handleOpenPokedex = (id: number) => {
+    console.log(id);
+    setIsPokedexOpen(true);
+  };
+
   const closePokedex = () => {
-    // document.getElementById('Pokedex-lightbox').classList.add('d-none');
+    setIsPokedexOpen(false);
   };
 
   const goToTop = () => {
@@ -92,7 +112,7 @@ function App() {
 
 
   return (
-    <div style={{width:'100%'}}>
+    <div style={{width: '100%'}}>
       <header className="header">
         <div className="header-images">
           <img src={Pokeball}
@@ -109,16 +129,18 @@ function App() {
         <div className="search-container">
           <input id="Search-input"
                  type="text"
-                 placeholder="Suche Pokemon..."/>
+                 placeholder="Suche Pokemon..."
+                 value={searchString}
+                 onChange={handleSearchChange}/>
           <IoMdSearch size={35}
                       className="search-icon_input"
                       title="Suche starten"
                       onClick={searchPokemon}/>
         </div>
 
-        <div className="number-loaded">
+        {loadedPokemonIds.length > 0 && <div className="number-loaded">
           Es sind insgesamt <span id="Number-loaded-pokemon">20</span> Pokemon geladen.
-        </div>
+        </div>}
 
         <div id="Number-filtered"
              className="number-loaded d-none">
@@ -127,13 +149,18 @@ function App() {
 
         <div id="Pokemon-cards"
              className="pokemon-cards-container">
+          {fetchedPokemons.map((pokemon) => (
+            <PokemonCard key={pokemon.id}
+                         pokemon={pokemon}
+                         onOpenPokedex={handleOpenPokedex}/>
+          ))}
         </div>
 
-        <div id="Loading">
+        {isLoading && <div id="Loading">
           <img className="rotate"
                src={Pokeball}
                alt="Loading..."/>
-        </div>
+        </div>}
 
         <div className="button-more-poke-container">
           <button onClick={morePokemon}>mehr Pokemon</button>
@@ -142,40 +169,41 @@ function App() {
         <div id="Arrow-up-button"
              className="arrow-up-container d-none"
              onClick={goToTop}>
-          <FaArrowUp />
+          <FaArrowUp/>
         </div>
 
       </section>
 
-      {/*<section id="Pokedex-lightbox"*/}
-      {/*         className="pokedex-lightbox d-none">*/}
-      {/*  <div id="Arrow-left-container"*/}
-      {/*       className="arrow-left-container buttons-continue">*/}
-      {/*    <i className="fas fa-arrow-left"*/}
-      {/*       title="Before"></i>*/}
-      {/*  </div>*/}
+      {isPokedexOpen && <section id="Pokedex-lightbox"
+                                 className="pokedex-lightbox d-none">
+        <div id="Arrow-left-container"
+             className="arrow-left-container buttons-continue">
+          <i className="fas fa-arrow-left"
+             title="Before"></i>
+        </div>
 
-      {/*  <div id="Pokedex" className="pokedex">*/}
-      {/*    <div className="background">*/}
-      {/*      <img className="pokedex-img"*/}
-      {/*           src="img/pokedex-bg.png"*/}
-      {/*           alt="pokedex-bg"/>*/}
-      {/*      <div className="close-btn-container"*/}
-      {/*           onClick={closePokedex}>*/}
-      {/*        <i className="fas fa-times"></i>*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
+        <div id="Pokedex" className="pokedex">
+          <div className="background">
+            <img className="pokedex-img"
+                 src={PokedexBG}
+                 alt="pokedex-bg"/>
+            <div className="close-btn-container"
+                 onClick={closePokedex}>
+              <IoClose />
+            </div>
+          </div>
 
-      {/*    <div id="Pokedex-content"*/}
-      {/*         className="pokedex-content">*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
+          <div id="Pokedex-content"
+               className="pokedex-content">
+          </div>
+        </div>
 
-      {/*  <div id="Arrow-right-container"*/}
-      {/*       className="arrow-right-container buttons-continue">*/}
-      {/*    <i className="fas fa-arrow-right" title="Next"></i>*/}
-      {/*  </div>*/}
-      {/*</section>*/}
+        <div id="Arrow-right-container"
+             className="arrow-right-container buttons-continue">
+          <i className="fas fa-arrow-right" title="Next"></i>
+        </div>
+      </section>
+      }
 
       <footer className="footer">
         <div className="copyright">
