@@ -22,3 +22,16 @@ export const cards = [
   GrayCard,
   RedCard,
 ];
+
+export const experienceRanges = [
+  {max: 35, card: BlackCard},
+  {max: 70, card: GreenCard},
+  {max: 105, card: BlueCard},
+  {max: 140, card: PinkCard},
+  {max: 175, card: OrangeCard},
+  {max: 210, card: YellowCard},
+  {max: 245, card: PurpleCard},
+  {max: 280, card: GoldCard},
+  {max: 315, card: GrayCard},
+  {max: 500, card: RedCard},
+];

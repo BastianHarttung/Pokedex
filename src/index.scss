@@ -1,12 +1,70 @@
-@font-face{
+@font-face {
   font-family: 'Consolas';
   font-style: normal;
   src: url("./assets/fonts/consola.woff") format("woff")
 }
 
+@font-face {
+  font-family: 'Font Awesome 5 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./assets/fonts/fa-brands-400.woff2") format("woff2"),
+  url("./assets/fonts/fa-brands-400.woff") format("woff")
+}
+
+.fab {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-family: 'Font Awesome 5 Brands';
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./assets/fonts/fa-regular-400.woff2") format("woff2"),
+  url("./assets/fonts/fa-regular-400.woff") format("woff")
+}
+
+.far {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("./assets/fonts/fa-solid-900.woff2") format("woff2"),
+  url("./assets/fonts/fa-solid-900.woff") format("woff");
+}
+
+.fa,
+.fas {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
 :root {
   --color_light-red: #FF7D7D;
-  --color_red:#EF4036;
+  --color_red: #EF4036;
   --color_light-yellow: #FFF9C1;
   --color_light-green: #CFFFC5;
   --color_green: #2DF004;
@@ -23,12 +81,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root{
+#root {
   width: 100%;
   box-sizing: border-box;
 }
 
-html{
+html {
   scroll-behavior: smooth;
 }
 

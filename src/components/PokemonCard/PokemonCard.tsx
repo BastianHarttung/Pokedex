@@ -5,25 +5,18 @@ import { cards } from '../../constants/cards.ts';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
-  onOpenPokedex: (id: number) => void;
+  onOpenPokedex: (pokemon: Pokemon) => void;
 }
 
 const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
 
   const handleOpenPokedex = () => {
-    onOpenPokedex(pokemon.id);
+    onOpenPokedex(pokemon);
   };
 
-  const card = pokemon.base_experience < 35 ? cards[0]
-    : pokemon.base_experience >= 35 ? cards[1]
-      : pokemon.base_experience >= 70 ? cards[2]
-        : pokemon.base_experience >= 105 ? cards[3]
-          : pokemon.base_experience >= 140 ? cards[4]
-            : pokemon.base_experience >= 175 ? cards[5]
-              : pokemon.base_experience >= 210 ? cards[6]
-                : pokemon.base_experience >= 245 ? cards[7]
-                  : pokemon.base_experience >= 280 ? cards[8]
-                    : cards[9];
+  const maxCardIndex = cards.length - 1;
+  const cardIndex = Math.min(Math.floor(pokemon.base_experience / 35), maxCardIndex);
+  const card = cards[cardIndex];
 
   return (
     <div className="pokemon-card"
