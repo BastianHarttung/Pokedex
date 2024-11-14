@@ -11,6 +11,8 @@ import Pokedex from './components/Pokedex/Pokedex.tsx';
 import Search from './components/Search/Search.tsx';
 
 
+const sortingOptions = ['id', 'name', 'base_experience', 'order', 'weight', 'height'];
+
 function App() {
   const [allPokemonList, setAllPokemonList] = useState<NamedAPIResourceList | null>(null);
   const [allPokemonNames, setAllPokemonNames] = useState<string[]>([]);
