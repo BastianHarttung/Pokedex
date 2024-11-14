@@ -133,3 +133,10 @@
 .fa-arrow-up::before {
   content: '\f062';
 }
+
+@media(max-width: 600px){
+  .arrow-up-container {
+    right:24px;
+    bottom:24px;
+  }
+}

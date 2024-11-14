@@ -1,20 +1,34 @@
 .footer {
   background-color: var(--color_light-green);
-  height: 60px;
   color: #707070;
   display: flex;
   justify-content: center;
+  align-items: center;
   box-shadow: 0 0 10px var(--shadow);
-  padding: 10px;
+  padding: 20px 12px;
+
+  .footer_content{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:0.3rem
+  }
 }
 
 .copyright {
   font-size: 18px;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  gap: 8px;
+
+  a {
+    display: flex;
+  }
 }
 
 .copyright a {
