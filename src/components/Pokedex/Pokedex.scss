@@ -39,14 +39,15 @@
 }
 
 .pokedex-stats-container {
-  color: rgb(0, 48, 0, .9);
+  color: rgb(0, 48, 0, .95);
   font-family: 'Consolas', Arial, sans-serif;
   font-weight: 800;
   font-size: 25px;
   position: absolute;
-  top: 167px;
-  left: 446px;
+  top: 170px;
+  left: 450px;
   display: flex;
+  overflow: hidden;
 }
 
 .pokedex-stats-container div {
@@ -65,11 +66,12 @@
 .stat-progress-container {
   /* border: 1px solid green; */
   width: 150px;
-  height: 33px;
+  height: 35px;
 }
 
 .stat-progress {
-  background-color: green;
+  background-color: #1aa81a;
+  padding-left: 0.25rem;
 }
 
 /* Close-Button -------------------------*/
@@ -162,7 +164,7 @@
   .pokedex-stats-container {
     font-size: 18px;
     top: 120px;
-    left: 318px;
+    left: 312px;
   }
   .pokedex-stats-container div {
     line-height: 24px;
@@ -205,7 +207,7 @@
   .pokedex-stats-container {
     font-size: 14px;
     top: 83px;
-    left: 228px;
+    left: 226px;
   }
   .pokedex-stats-container div {
     line-height: 19px;

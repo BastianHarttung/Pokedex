@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { Pokemon, NamedAPIResourceList } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
@@ -9,9 +9,17 @@ import { fetchPokemonByName, fetchPokemonList, fetchPokemonsById } from './api/p
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
 import Search from './components/Search/Search.tsx';
+import { Sorting } from "./models/enums.ts";
 
 
-const sortingOptions = ['id', 'name', 'base_experience', 'order', 'weight', 'height'];
+const sortingOptions = [
+  {value: Sorting.ID, label: "ID #"},
+  {value: Sorting.NAME, label: "Name"},
+  {value: Sorting.BASE_EXPERIENCE, label: "Erfahrung"},
+  {value: Sorting.ORDER, label: "Reihenfolge"},
+  {value: Sorting.HEIGHT, label: "Größe"},
+  {value: Sorting.WEIGHT, label: "Gewicht"},
+];
 
 function App() {
   const [allPokemonList, setAllPokemonList] = useState<NamedAPIResourceList | null>(null);
@@ -25,6 +33,8 @@ function App() {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [sortingOrder, setSortingOrder] = useState<Sorting>(Sorting.ID)
 
   const handleSearch = async (search: string) => {
     if (!search) {
@@ -50,11 +60,16 @@ function App() {
   const loadMorePokemons = () => {
   };
 
+  const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value as Sorting
+    setSortingOrder(value)
+  }
+
   useEffect(() => {
     if (allPokemonList) {
       setIsLoading(true);
       fetchPokemonsById(20).then((pokemons) => {
-          pokemons.sort((a, b) => a.base_experience - b.base_experience);
+          pokemons.sort((a, b) => sortPokemon(a, b, sortingOrder));
           setFetchedPokemons(pokemons);
           setIsLoading(false);
         },
@@ -71,13 +86,33 @@ function App() {
     }
   }, [allPokemonList]);
 
+  useEffect(() => {
+    setFetchedPokemons(prev => {
+      const prevClone = [...prev]
+      prevClone.sort((a, b) => sortPokemon(a, b, sortingOrder))
+      return prevClone
+    })
+  }, [sortingOrder]);
+
 
   return (
     <main style={{width: '100%'}}>
       <Header/>
 
       <section className="pokecard-overview">
-        <Search allPokemonNames={allPokemonNames}/>
+        <div className="search-sorting_container">
+          <Search allPokemonNames={allPokemonNames}/>
+
+          <div className="sorting_container">
+            <label htmlFor="sort">Sortieren nach</label>
+            <select name="sort" id="sort"
+                    onChange={handleSortChange}>
+              {sortingOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
         {fetchedPokemons.length > 0 && <div className="number-loaded">
           Es sind insgesamt <span id="Number-loaded-pokemon">{fetchedPokemons.length}</span> Pokemon geladen.
@@ -121,6 +156,17 @@ function App() {
       <Footer/>
     </main>
   );
+}
+
+function sortPokemon(a: Pokemon, b: Pokemon, sortingOrder: Sorting) {
+  const valueA = a[sortingOrder];
+  const valueB = b[sortingOrder];
+
+  if (typeof valueA === "number" && typeof valueB === "number") {
+    return valueA - valueB;
+  } else if (typeof valueA === "string" && typeof valueB === "string") {
+    return valueA.localeCompare(valueB)
+  } else return 0;
 }
 
 export default App;

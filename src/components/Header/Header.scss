@@ -22,8 +22,14 @@
   max-height: 70px;
 }
 
-.height-40 {
+.pikachu {
+  transform: scaleX(-1);
+  max-height: 60px !important;
+}
+
+.pokeball {
   max-height: 40px !important;
+  padding: 0 12px;
 }
 
 @media(max-width: 600px) {
@@ -33,7 +39,11 @@
   .header-images img {
     max-height: 45px;
   }
-  .height-40 {
+  .pikachu {
+    max-height: 45px !important;
+  }
+  .pokeball {
     max-height: 30px !important;
+    padding: 0 8px;
   }
 }

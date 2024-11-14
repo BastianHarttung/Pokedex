@@ -44,15 +44,15 @@ const Pokedex = ({pokemon, onClose}: PokedexProps) => {
               <div className="pokedex-stat-title">ID</div>
               <div className="pokedex-stat-title">Name</div>
               <br/>
-              <div className="pokedex-stat-title">Height</div>
-              <div className="pokedex-stat-title">Weight</div>
+              <div className="pokedex-stat-title">Größe</div>
+              <div className="pokedex-stat-title">Gewicht</div>
               <div className="pokedex-stat-title">HP</div>
               <div className="pokedex-stat-title">Attack</div>
               <div className="pokedex-stat-title">Defense</div>
               <div className="pokedex-stat-title">Speed</div>
             </div>
             <div className="pokedex-stats-values">
-              <div id="Pokedex-id" className="pokedex-stat-value">{pokemon.id.toString().padStart(3, '0')}</div>
+              <div id="Pokedex-id" className="pokedex-stat-value">#{pokemon.id.toString().padStart(3, '0')}</div>
               <div className="pokedex-stat-value pokedex-name">{pokemon.species.name}</div>
               <br/>
               <div className="pokedex-stat-value">{pokemon.height * 10}cm</div>
@@ -60,22 +60,22 @@ const Pokedex = ({pokemon, onClose}: PokedexProps) => {
               <div className="pokedex-stat-value stat-progress-container">
                 <div id="Stat-progress-hp"
                      className="stat-progress stat-progress-hp"
-                     style={{width: `${pokemon.stats[0].base_stat}%`}}>{pokemon.stats[0].base_stat}</div>
+                     style={{width: `${pokemon.stats[0].base_stat / 150 * 100}%`}}>{pokemon.stats[0].base_stat}</div>
               </div>
               <div className="pokedex-stat-value stat-progress-container">
                 <div id="Stat-progress-attack"
                      className="stat-progress stat-progress-attack"
-                     style={{width: `${pokemon.stats[1].base_stat}%`}}>{pokemon.stats[1].base_stat}</div>
+                     style={{width: `${pokemon.stats[1].base_stat / 150 * 100}%`}}>{pokemon.stats[1].base_stat}</div>
               </div>
               <div className="pokedex-stat-value stat-progress-container">
                 <div id="Stat-progress-defense"
                      className="stat-progress stat-progress-defense"
-                     style={{width: `${pokemon.stats[2].base_stat}%`}}>{pokemon.stats[2].base_stat}</div>
+                     style={{width: `${pokemon.stats[2].base_stat / 150 * 100}%`}}>{pokemon.stats[2].base_stat}</div>
               </div>
               <div className="pokedex-stat-value stat-progress-container">
                 <div id="Stat-progress-speed"
                      className="stat-progress stat-progress-speed"
-                     style={{width: `${pokemon.stats[5].base_stat}%`}}>{pokemon.stats[5].base_stat}</div>
+                     style={{width: `${pokemon.stats[5].base_stat / 150 * 100}%`}}>{pokemon.stats[5].base_stat}</div>
               </div>
             </div>
           </div>

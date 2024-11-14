@@ -31,9 +31,9 @@ const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
         <div id="Pokemon-name" className="pokemon-name">{pokemon.species.name}</div>
         <div className="pokemon-stats-container">
           <div className="pokemon-stats-title">
-            <div className="pokemon-stat-title">Height:</div>
-            <div className="pokemon-stat-title">Weight:</div>
-            <div className="pokemon-stat-title">Experience:</div>
+            <div className="pokemon-stat-title">Größe:</div>
+            <div className="pokemon-stat-title">Gewicht:</div>
+            <div className="pokemon-stat-title">Erfahrung:</div>
           </div>
           <div className="pokemon-stats-value">
             <div className="pokemon-stat">{pokemon.height * 10}cm</div>
