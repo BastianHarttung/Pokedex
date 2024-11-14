@@ -9,36 +9,14 @@
   padding: 50px;
 }
 
-/* Search --------------------------------- */
-.search-container {
-  position: relative;
-}
-
-.search-container input {
-  width: 300px;
-  font-size: 20px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  outline: none;
-  margin: 1px;
-}
-
-.search-container input:focus {
-  border: 2px solid rgb(77, 77, 77);
-  margin: 0;
-}
-
-.search-icon_input {
-  position: absolute;
-  right: 0;
-  cursor: pointer;
-  padding: 5px;
-  opacity: 0.6;
-}
-
-.search-icon_input:hover {
-  opacity: 1;
+.pokemon-cards-container {
+  width: 100%;
+  max-width: var(--max-width_content);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 12px 0 0 0;
 }
 
 .number-loaded {

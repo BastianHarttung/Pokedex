@@ -5,7 +5,7 @@ const api = new PokemonClient();
 
 export const fetchPokemonList = async () => {
   try {
-    return await api.listPokemons();
+    return await api.listPokemons(0,10000);
   } catch (err) {
     console.error(err);
     return null;

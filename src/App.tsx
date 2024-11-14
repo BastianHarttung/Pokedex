@@ -1,6 +1,5 @@
 import './App.scss';
-import { useState, ChangeEvent, useEffect } from 'react';
-import { IoMdSearch } from 'react-icons/io';
+import { useState, useEffect } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { Pokemon, NamedAPIResourceList } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
@@ -9,10 +8,12 @@ import Header from './components/Header/Header.tsx';
 import { fetchPokemonByName, fetchPokemonList, fetchPokemonsById } from './api/pokemonAPI.ts';
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
+import Search from './components/Search/Search.tsx';
 
 
 function App() {
   const [allPokemonList, setAllPokemonList] = useState<NamedAPIResourceList | null>(null);
+  const [allPokemonNames, setAllPokemonNames] = useState<string[]>([]);
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
@@ -22,12 +23,6 @@ function App() {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const [searchString, setSearchString] = useState<string>('');
-
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchString(event.target.value);
-  };
 
   const handleSearch = async (search: string) => {
     if (!search) {
@@ -53,9 +48,6 @@ function App() {
   const loadMorePokemons = () => {
   };
 
-  const searchPokemon = () => {
-  };
-
   useEffect(() => {
     if (allPokemonList) {
       setIsLoading(true);
@@ -68,6 +60,7 @@ function App() {
       setIsLoading(true);
       fetchPokemonList().then((list) => {
         if (list) {
+          setAllPokemonNames(list.results.map((pok) => pok.name).sort((a, b) => a.localeCompare(b)));
           setAllPokemonList(list);
           setIsLoading(false);
         }
@@ -81,17 +74,7 @@ function App() {
       <Header/>
 
       <section className="pokecard-overview">
-        <div className="search-container">
-          <input id="Search-input"
-                 type="text"
-                 placeholder="Suche Pokemon..."
-                 value={searchString}
-                 onChange={handleSearchChange}/>
-          <IoMdSearch size={35}
-                      className="search-icon_input"
-                      title="Suche starten"
-                      onClick={searchPokemon}/>
-        </div>
+        <Search allPokemonNames={allPokemonNames} />
 
         {fetchedPokemons.length > 0 && <div className="number-loaded">
           Es sind insgesamt <span id="Number-loaded-pokemon">{fetchedPokemons.length}</span> Pokemon geladen.
