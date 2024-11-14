@@ -52,6 +52,7 @@ function App() {
     if (allPokemonList) {
       setIsLoading(true);
       fetchPokemonsById(20).then((pokemons) => {
+          pokemons.sort((a, b) => a.base_experience - b.base_experience);
           setFetchedPokemons(pokemons);
           setIsLoading(false);
         },
@@ -74,7 +75,7 @@ function App() {
       <Header/>
 
       <section className="pokecard-overview">
-        <Search allPokemonNames={allPokemonNames} />
+        <Search allPokemonNames={allPokemonNames}/>
 
         {fetchedPokemons.length > 0 && <div className="number-loaded">
           Es sind insgesamt <span id="Number-loaded-pokemon">{fetchedPokemons.length}</span> Pokemon geladen.
