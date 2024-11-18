@@ -17,6 +17,7 @@ const sortingOptions = [
   {value: Sorting.NAME, label: 'Name'},
   {value: Sorting.BASE_EXPERIENCE, label: 'Erfahrung'},
   {value: Sorting.HP, label: 'HP (Health Points)'},
+  {value: Sorting.TYPE, label: 'Typ'},
   {value: Sorting.ORDER, label: 'Reihenfolge'},
   {value: Sorting.HEIGHT, label: 'Größe'},
   {value: Sorting.WEIGHT, label: 'Gewicht'},
@@ -172,6 +173,9 @@ function sortPokemon(a: Pokemon, b: Pokemon, sortingOrder: Sorting) {
   if (sortingOrder === Sorting.HP) {
     valueA = a.stats[0].base_stat
     valueB = b.stats[0].base_stat
+  } else if (sortingOrder === Sorting.TYPE) {
+    valueA = a.types[0].type.name
+    valueB = b.types[0].type.name
   } else {
     valueA = a[sortingOrder];
     valueB = b[sortingOrder];
