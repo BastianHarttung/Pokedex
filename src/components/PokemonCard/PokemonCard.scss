@@ -34,7 +34,7 @@
 
 .pokemon-image {
   position: absolute;
-  top: 44px;
+  top: 46px;
   height: 120px;
 }
 
@@ -72,10 +72,28 @@
   line-height: 1.2;
 }
 
+.pokemon-stat-hp {
+  width: 84px;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 700;
+  position: absolute;
+  top: 299px;
+  left: 24px;
+}
+
 .poke-number {
+  width: 91px;
+  text-align: center;
   font-size: 23px;
   font-weight: 900;
   position: absolute;
   top: 295px;
-  right: 44px;
+  right: 36px;
+
+  &.smaller {
+    font-size: 19px;
+    top: 298px;
+    right: 37px;
+  }
 }

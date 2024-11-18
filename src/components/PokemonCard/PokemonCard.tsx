@@ -1,6 +1,7 @@
 import './PokemonCard.scss';
 import { Pokemon } from 'pokenode-ts';
 import { cards } from '../../constants/cards.ts';
+import Pokeball from '../../assets/images/favicon_pokeball.png';
 
 
 interface PokemonCardProps {
@@ -26,7 +27,7 @@ const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
            src={card}/>
       <div className="pokemon-card-content">
         <img className="pokemon-image"
-             src={pokemon.sprites.other?.['official-artwork'].front_default || ''}
+             src={pokemon.sprites.other?.['official-artwork'].front_default || Pokeball}
              alt="Pokemon-Picture"/>
         <div id="Pokemon-name" className="pokemon-name">{pokemon.species.name}</div>
         <div className="pokemon-stats-container">
@@ -36,12 +37,21 @@ const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
             <div className="pokemon-stat-title">Erfahrung:</div>
           </div>
           <div className="pokemon-stats-value">
-            <div className="pokemon-stat">{pokemon.height * 10}cm</div>
+            <div className="pokemon-stat">{pokemon.height < 10
+              ? `${pokemon.height * 10}cm`
+              : `${(pokemon.height / 10).toFixed(2)}m`}</div>
             <div className="pokemon-stat">{pokemon.weight / 10}kg</div>
             <div className="pokemon-stat stat-exp">{pokemon.base_experience}</div>
           </div>
         </div>
-        <div className="poke-number">#{pokemon.id.toString().padStart(3, '0')}</div>
+
+        <div className="pokemon-stat-hp">
+          {pokemon.stats[0].base_stat} HP
+        </div>
+
+        <div className={`poke-number ${pokemon.id > 9999 ? 'smaller' : ''}`}>
+          #{pokemon.id.toString().padStart(3, '0')}
+        </div>
       </div>
     </div>
   );

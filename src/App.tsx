@@ -24,7 +24,7 @@ const sortingOptions = [
 function App() {
   const [allPokemonCount, setAllPokemonCount] = useState<number>(0);
   const [allPokemonNames, setAllPokemonNames] = useState<string[]>([]);
-  const [allPokemonIds, setAllPokemonIds] = useState<number[]>([]);
+  const [pokemonIds, setPokemonIds] = useState<number[]>([]);
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
@@ -60,9 +60,9 @@ function App() {
 
   const loadMorePokemons = () => {
     setIsLoading(true);
-    fetchPokemonsById(20).then((pokemons: Pokemon[]) => {
-      pokemons.sort((a, b) => sortPokemon(a, b, sortingOrder));
-      setFetchedPokemons(pokemons);
+    fetchPokemonsById(20, pokemonIds).then(({pokemons, remainingIds}) => {
+      setPokemonIds(remainingIds);
+      setFetchedPokemons(prev => ([...prev, ...pokemons].sort((a, b) => sortPokemon(a, b, sortingOrder))));
       setIsLoading(false);
     });
   };
@@ -74,14 +74,14 @@ function App() {
 
   useEffect(() => {
     if (allPokemonCount) {
-      loadMorePokemons()
+      loadMorePokemons();
     } else {
       setIsLoading(true);
       fetchPokemonList().then((list: NamedAPIResourceList | null) => {
         if (list) {
           setAllPokemonCount(list.count);
           setAllPokemonNames(list.results.map((pok) => pok.name).sort((a, b) => a.localeCompare(b)));
-          setAllPokemonIds(getPokemonIdRandomArray(list.results));
+          setPokemonIds(getPokemonIdRandomArray(list.results));
           setIsLoading(false);
         }
       });
@@ -117,7 +117,7 @@ function App() {
         </div>
 
         {fetchedPokemons.length > 0 && <div className="number-loaded">
-          Es sind insgesamt <span id="Number-loaded-pokemon">{fetchedPokemons.length}</span> Pokemon geladen.
+          Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
         </div>}
 
         {/*<div id="Number-filtered"*/}
@@ -139,6 +139,10 @@ function App() {
           <img className="rotate"
                src={Pokeball}
                alt="Loading..."/>
+        </div>}
+
+        {fetchedPokemons.length > 0 && <div className="number-loaded">
+          Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
         </div>}
 
         <div className="button-more-poke-container">
