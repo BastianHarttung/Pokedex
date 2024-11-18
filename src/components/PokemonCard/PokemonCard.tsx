@@ -2,6 +2,7 @@ import './PokemonCard.scss';
 import { Pokemon } from 'pokenode-ts';
 import { cards } from '../../constants/cards.ts';
 import Pokeball from '../../assets/images/favicon_pokeball.png';
+import { getTypeIcon } from '../../constants/typeIcons.ts';
 
 
 interface PokemonCardProps {
@@ -10,14 +11,13 @@ interface PokemonCardProps {
 }
 
 const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
+  const maxCardIndex = cards.length - 1;
+  const cardIndex = Math.min(Math.floor(pokemon.base_experience / 35), maxCardIndex);
+  const card = cards[cardIndex];
 
   const handleOpenPokedex = () => {
     onOpenPokedex(pokemon);
   };
-
-  const maxCardIndex = cards.length - 1;
-  const cardIndex = Math.min(Math.floor(pokemon.base_experience / 35), maxCardIndex);
-  const card = cards[cardIndex];
 
   return (
     <div className="pokemon-card"
@@ -26,9 +26,14 @@ const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
            alt=""
            src={card}/>
       <div className="pokemon-card-content">
+
+        <img src={getTypeIcon(pokemon)} alt="Pokemon Type"
+             className="pokemon-type_icon"/>
+
         <img className="pokemon-image"
              src={pokemon.sprites.other?.['official-artwork'].front_default || Pokeball}
              alt="Pokemon-Picture"/>
+
         <div id="Pokemon-name" className="pokemon-name">{pokemon.species.name}</div>
         <div className="pokemon-stats-container">
           <div className="pokemon-stats-title">

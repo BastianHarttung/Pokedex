@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="_10-Eis" serif:id="10 Eis" transform="matrix(0.352947,0,0,0.352947,-64.5147,-113.718)">
+        <path d="M212.716,335.099L212.716,362.275L237.048,374.668L237.048,348.744L212.716,335.099Z"/>
+        <g transform="matrix(-1,0,0,1,478.872,0)">
+            <path d="M212.716,335.099L212.716,362.275L237.048,374.668L237.048,348.744L212.716,335.099Z"/>
+        </g>
+        <g transform="matrix(-1,0,0,-1,478.872,757.724)">
+            <path d="M212.716,335.099L212.716,362.275L237.048,374.668L237.048,348.744L212.716,335.099Z"/>
+        </g>
+        <g transform="matrix(1,0,0,-1,0,757.724)">
+            <path d="M212.716,335.099L212.716,362.275L237.048,374.668L237.048,348.744L212.716,335.099Z"/>
+        </g>
+        <g transform="matrix(0.5,0.866025,0.866025,-0.5,-207.064,362.001)">
+            <path d="M212.246,334.166L213.538,361.433L236.778,376.113L235.349,348.841L212.246,334.166Z"/>
+        </g>
+        <g transform="matrix(-0.5,0.866025,-0.866025,-0.5,685.972,362.001)">
+            <path d="M212.246,334.166L213.538,361.433L236.778,376.113L235.349,348.841L212.246,334.166Z"/>
+        </g>
+    </g>
+</svg>
