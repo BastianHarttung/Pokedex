@@ -74,6 +74,18 @@ function App() {
     setSortingOrder(value);
   };
 
+  const handleNextPokemon = () => {
+    const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
+    const nextPokemon = fetchedPokemons[Math.min(selectedId + 1, fetchedPokemons.length - 1)]
+    setSelectedPokemon(nextPokemon)
+  }
+
+  const handlePrevPokemon = () => {
+    const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
+    const nextPokemon = fetchedPokemons[Math.max(selectedId - 1, 0)]
+    setSelectedPokemon(nextPokemon)
+  }
+
   useEffect(() => {
     if (allPokemonCount) {
       loadMorePokemons();
@@ -159,7 +171,9 @@ function App() {
       </section>
 
       {isPokedexOpen && <Pokedex pokemon={selectedPokemon}
-                                 onClose={closePokedex}/>}
+                                 onClose={closePokedex}
+                                 onNextPokemon={handleNextPokemon}
+                                 onPrevPokemon={handlePrevPokemon}/>}
 
       <Footer/>
     </main>

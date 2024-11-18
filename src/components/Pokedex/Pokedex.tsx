@@ -9,9 +9,11 @@ import { getTypeIcon, getType } from '../../constants/typeIcons.ts';
 interface PokedexProps {
   pokemon: Pokemon | null;
   onClose: () => void;
+  onNextPokemon: () => void;
+  onPrevPokemon: () => void;
 }
 
-const Pokedex = ({pokemon, onClose}: PokedexProps) => {
+const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const picturePokedex = pokemon?.sprites.other?.dream_world.front_default || pokemon?.sprites.other?.
@@ -57,7 +59,8 @@ const Pokedex = ({pokemon, onClose}: PokedexProps) => {
     <section id="Pokedex-lightbox"
              className="pokedex-lightbox d-none">
       <div id="Arrow-left-container"
-           className="arrow-left-container buttons-continue">
+           className="arrow-left-container buttons-continue"
+           onClick={onPrevPokemon}>
         <i className="fas fa-arrow-left"
            title="Before"></i>
       </div>
@@ -133,7 +136,8 @@ const Pokedex = ({pokemon, onClose}: PokedexProps) => {
       </div>
 
       <div id="Arrow-right-container"
-           className="arrow-right-container buttons-continue">
+           className="arrow-right-container buttons-continue"
+           onClick={onNextPokemon}>
         <i className="fas fa-arrow-right" title="Next"></i>
       </div>
     </section>
