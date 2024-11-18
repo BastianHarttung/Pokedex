@@ -32,10 +32,9 @@
 
 .type-icon {
   height: 60px;
-  text-transform: capitalize;
   position: absolute;
-  top: 55px;
-  left: 270px
+  top: 58px;
+  left: 265px
 }
 
 .pokemon-img {
@@ -136,7 +135,6 @@
   -webkit-text-stroke: 3px black;
   font-size: 45px;
   content: '\f04b';
-  //transition: color 200ms ease-in-out;
 }
 
 .fa-stop::before {
@@ -144,7 +142,6 @@
   -webkit-text-stroke: 3px black;
   font-size: 45px;
   content: '\f04d';
-  //transition: color 200ms ease-in-out;
 }
 
 /* Buttons continue ------------------------- */
@@ -191,6 +188,13 @@
   .pokedex-img {
     height: 380px;
   }
+
+  .type-icon {
+    height: 45px;
+    top: 40px;
+    left: 175px
+  }
+
   .pokemon-img {
     width: 170px;
     height: 199px;
@@ -209,6 +213,18 @@
     width: 94px;
     height: 24px;
   }
+
+  .play-btn_container {
+    top: 62px;
+    right: 182px;
+  }
+  .fa-play::before {
+    font-size: 32px;
+  }
+  .fa-stop::before {
+    font-size: 32px;
+  }
+
   .buttons-continue {
     width: 40px;
     height: 40px;
@@ -234,12 +250,33 @@
   .pokedex-img {
     height: 280px;
   }
+
+  .type-icon {
+    height: 32px;
+    top: 30px;
+    left: 130px
+  }
+
   .pokemon-img {
     width: 123px;
     height: 145px;
     top: 84px;
     left: 35px;
   }
+
+  .play-btn_container {
+    top: 48px;
+    right: 136px;
+  }
+  .fa-play::before {
+    -webkit-text-stroke: 2px black;
+    font-size: 20px;
+  }
+  .fa-stop::before {
+    -webkit-text-stroke: 2px black;
+    font-size: 20px;
+  }
+
   .pokedex-stats-container {
     font-size: 14px;
     top: 83px;
@@ -258,12 +295,31 @@
   .pokedex-img {
     height: 200px;
   }
+
+  .type-icon {
+    height: 24px;
+    top: 20px;
+    left: 95px
+  }
+
   .pokemon-img {
     width: 88px;
     height: 98px;
     top: 63px;
     left: 25px;
   }
+
+  .play-btn_container {
+    top: 32px;
+    right: 96px;
+  }
+  .fa-play::before {
+    font-size: 18px;
+  }
+  .fa-stop::before {
+    font-size: 20px;
+  }
+
   .pokedex-stats-container {
     font-size: 11px;
     top: 63px;
