@@ -40,6 +40,32 @@ const typeIcons: Record<string, string> = {
   water: Water,
 };
 
+const typeTranslations = new Map<string, string>([
+  ['bug', 'Käfer'],
+  ['dark', 'Dunkelheit'],
+  ['dragon', 'Drache'],
+  ['electric', 'Elektro'],
+  ['fairy', 'Fee'],
+  ['fighting', 'Kampf'],
+  ['fire', 'Feuer'],
+  ['flying', 'Flug'],
+  ['ghost', 'Geist'],
+  ['grass', 'Gras'],
+  ['ground', 'Boden'],
+  ['ice', 'Eis'],
+  ['normal', 'Normal'],
+  ['poison', 'Gift'],
+  ['psychic', 'Psycho'],
+  ['rock', 'Gestein'],
+  ['steel', 'Stahl'],
+  ['water', 'Wasser'],
+]);
+
+export const getType = (pokemon: Pokemon) => {
+  const typeName = pokemon.types[0].type.name.toLowerCase();
+  return typeTranslations.get(typeName) || 'Unbekannt';
+};
+
 export const getTypeIcon = (pokemon: Pokemon) => {
   return typeIcons[pokemon.types[0].type.name] || Normal;
 };

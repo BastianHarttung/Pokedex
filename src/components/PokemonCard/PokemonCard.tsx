@@ -2,7 +2,7 @@ import './PokemonCard.scss';
 import { Pokemon } from 'pokenode-ts';
 import { cards } from '../../constants/cards.ts';
 import Pokeball from '../../assets/images/favicon_pokeball.png';
-import { getTypeIcon } from '../../constants/typeIcons.ts';
+import { getTypeIcon, getType } from '../../constants/typeIcons.ts';
 
 
 interface PokemonCardProps {
@@ -27,8 +27,10 @@ const PokemonCard = ({pokemon, onOpenPokedex}: PokemonCardProps) => {
            src={card}/>
       <div className="pokemon-card-content">
 
-        <img src={getTypeIcon(pokemon)} alt="Pokemon Type"
-             className="pokemon-type_icon"/>
+        <img src={getTypeIcon(pokemon)}
+             alt="Pokemon Type"
+             className="pokemon-type_icon"
+             title={getType(pokemon)}/>
 
         <img className="pokemon-image"
              src={pokemon.sprites.other?.['official-artwork'].front_default || Pokeball}

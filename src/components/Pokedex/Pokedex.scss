@@ -30,6 +30,14 @@
   height: 550px;
 }
 
+.type-icon {
+  height: 60px;
+  text-transform: capitalize;
+  position: absolute;
+  top: 55px;
+  left: 270px
+}
+
 .pokemon-img {
   width: 235px;
   height: 263px;
@@ -109,6 +117,34 @@
 
 .close-btn-container:hover .fa-times::before {
   color: var(--color_red);
+}
+
+/*--------Audio Control--------------------*/
+.play-btn_container {
+  position: absolute;
+  top: 90px;
+  right: 260px;
+  cursor: pointer;
+}
+
+.play-btn_container:hover .fa-play::before {
+  color: var(--color_green)
+}
+
+.fa-play::before {
+  color: white;
+  -webkit-text-stroke: 3px black;
+  font-size: 45px;
+  content: '\f04b';
+  //transition: color 200ms ease-in-out;
+}
+
+.fa-stop::before {
+  color: var(--color_red);
+  -webkit-text-stroke: 3px black;
+  font-size: 45px;
+  content: '\f04d';
+  //transition: color 200ms ease-in-out;
 }
 
 /* Buttons continue ------------------------- */

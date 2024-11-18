@@ -1,6 +1,9 @@
 import './Pokedex.scss';
 import PokedexBG from '../../assets/images/pokedex-bg.png';
 import { Pokemon } from 'pokenode-ts';
+import { PokemonWithSound } from '../../models/interfaces.ts';
+import { useState } from 'react';
+import { getTypeIcon, getType } from '../../constants/typeIcons.ts';
 
 
 interface PokedexProps {
@@ -9,8 +12,31 @@ interface PokedexProps {
 }
 
 const Pokedex = ({pokemon, onClose}: PokedexProps) => {
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
   const picturePokedex = pokemon?.sprites.other?.dream_world.front_default || pokemon?.sprites.other?.
     ['official-artwork'].front_default;
+
+  const pokemonWithSound = pokemon as PokemonWithSound;
+
+  const pokemonSounds = [pokemonWithSound?.cries?.latest, pokemonWithSound?.cries?.legacy].filter(sound => sound !== null);
+
+  const handleAudioPlay = () => {
+    if (!isAudioPlaying) {
+      const randomIndex = Math.floor(Math.random() * pokemonSounds.length);
+      const audio = new Audio(pokemonSounds[randomIndex]);
+      audio.volume = 0.2;
+      audio.addEventListener('playing', () => setIsAudioPlaying(true));
+      audio.addEventListener('ended', () => setIsAudioPlaying(false));
+      audio.addEventListener('error', () => setIsAudioPlaying(false));
+      audio.play()
+        .catch((err) => {
+          setIsAudioPlaying(false);
+          console.error('Error playing sound', err);
+        });
+    }
+  };
+
 
   if (!pokemon) return null;
 
@@ -36,9 +62,20 @@ const Pokedex = ({pokemon, onClose}: PokedexProps) => {
 
         <div id="Pokedex-content"
              className="pokedex-content">
+
+          <img src={getTypeIcon(pokemon)}
+               className="type-icon"
+               title={getType(pokemon)}/>
+
           {picturePokedex && <img className="pokemon-img"
                                   src={picturePokedex}
-                                  alt="Leider kein Bild in der Datenbank"/>}
+                                  alt="Pokemon Bild"/>}
+
+          <div className="play-btn_container"
+               onClick={handleAudioPlay}>
+            {isAudioPlaying ? <i className="fas fa-stop"></i>
+              : <i className="fas fa-play"></i>}
+          </div>
           <div className="pokedex-stats-container">
             <div className="pokedex-stats-title">
               <div className="pokedex-stat-title">ID</div>
