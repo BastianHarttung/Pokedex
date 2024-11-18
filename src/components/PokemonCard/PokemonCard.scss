@@ -79,13 +79,3 @@
   top: 295px;
   right: 44px;
 }
-
-@media(max-width: 1300px) {
-  .pokemon-cards-container {
-    width: 100%;
-  }
-  .pokecard-overview {
-    min-height: calc(100vh - 92px - 80px - (2 * 30px));
-    padding: 30px;
-  }
-}

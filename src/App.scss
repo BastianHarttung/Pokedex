@@ -1,12 +1,10 @@
-/* ------------------Section Overview------------ */
-
 .pokecard-overview {
   background-color: var(--color_light-yellow);
-  min-height: calc(100vh - 92px - 80px - (2 * 50px)); // - header - footer - padding
+  min-height: calc(100vh - 92px - 64px - (2 * 40px)); // - header - footer - padding
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px;
+  padding: 40px;
 }
 
 .search-sorting_container {
@@ -40,6 +38,19 @@
       border: 2px solid rgb(77, 77, 77);
       margin: 0;
     }
+  }
+}
+
+@media(max-width: 1300px) {
+  .pokecard-overview {
+    min-height: calc(100vh - 92px - 64px - (2 * 24px)); // - header - footer - padding
+    padding: 24px;
+  }
+}
+
+@media(max-width: 600px) {
+  .pokecard-overview {
+    min-height: calc(100vh - 67px - 64px - (2 * 24px)); // - header - footer - padding
   }
 }
 
@@ -134,9 +145,9 @@
   content: '\f062';
 }
 
-@media(max-width: 600px){
+@media(max-width: 600px) {
   .arrow-up-container {
-    right:24px;
-    bottom:24px;
+    right: 24px;
+    bottom: 24px;
   }
 }
