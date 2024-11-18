@@ -1,7 +1,7 @@
 import './App.scss';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-import { Pokemon, NamedAPIResourceList, NamedAPIResource } from 'pokenode-ts';
+import { NamedAPIResource, NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 import Header from './components/Header/Header.tsx';
@@ -16,6 +16,7 @@ const sortingOptions = [
   {value: Sorting.ID, label: 'ID #'},
   {value: Sorting.NAME, label: 'Name'},
   {value: Sorting.BASE_EXPERIENCE, label: 'Erfahrung'},
+  {value: Sorting.HP, label: 'HP (Health Points)'},
   {value: Sorting.ORDER, label: 'Reihenfolge'},
   {value: Sorting.HEIGHT, label: 'Größe'},
   {value: Sorting.WEIGHT, label: 'Gewicht'},
@@ -165,8 +166,16 @@ function App() {
 }
 
 function sortPokemon(a: Pokemon, b: Pokemon, sortingOrder: Sorting) {
-  const valueA = a[sortingOrder];
-  const valueB = b[sortingOrder];
+  let valueA;
+  let valueB;
+
+  if (sortingOrder === Sorting.HP) {
+    valueA = a.stats[0].base_stat
+    valueB = b.stats[0].base_stat
+  } else {
+    valueA = a[sortingOrder];
+    valueB = b[sortingOrder];
+  }
 
   if (typeof valueA === 'number' && typeof valueB === 'number') {
     return valueA - valueB;
