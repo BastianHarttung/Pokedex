@@ -29,8 +29,8 @@ function App() {
   const [pokemonIds, setPokemonIds] = useState<number[]>([]);
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
-  const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
-  const displayPokemon = filteredPokemon.length > 0 ? filteredPokemon : fetchedPokemons;
+  const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
+  // const displayPokemon = filteredPokemon.length > 0 ? filteredPokemon : fetchedPokemons;
 
   const [isPokedexOpen, setIsPokedexOpen] = useState<boolean>(true);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
@@ -39,12 +39,16 @@ function App() {
 
   const [sortingOrder, setSortingOrder] = useState<Sorting>(Sorting.ID);
 
-  const handleSearch = async (search: string) => {
+  const handleSearch = (search: string) => {
     if (!search) {
-      setFilteredPokemon([]);
+      setFilteredPokemons(fetchedPokemons);
     } else {
-      const result = await fetchPokemonByName(search);
-      setFilteredPokemon(result ? [result] : []);
+      const findPokemon = fetchedPokemons.find(poke => poke.name === search);
+      if (findPokemon) {
+        setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(search)));
+      } else {
+        getPokemonByName(search)
+      }
     }
   };
 
@@ -88,21 +92,19 @@ function App() {
     setSelectedPokemon(nextPokemon)
   }
 
-  const handleGetPokemonByName = (name: string) => {
-    const findPokemon = fetchedPokemons.find(poke => poke.name === name);
-
-    if (!findPokemon) {
-      setIsLoading(true);
-      fetchPokemonByName(name)
-        .then(pokemon => {
-          if (pokemon) {
-            setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
-            setFetchedPokemons(prev => ([...prev, pokemon].sort((a, b) => sortPokemon(a, b, sortingOrder))))
-          }
-        })
-        .catch(error => console.error(error))
-        .finally(() => setIsLoading(false))
-    }
+  const getPokemonByName = (name: string) => {
+    setIsLoading(true);
+    fetchPokemonByName(name)
+      .then(pokemon => {
+        if (pokemon) {
+          setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
+          setFetchedPokemons(prev => ([...prev, pokemon].sort((a, b) => sortPokemon(a, b, sortingOrder))))
+        } else {
+          setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(name)))
+        }
+      })
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
@@ -129,6 +131,10 @@ function App() {
     });
   }, [sortingOrder]);
 
+  useEffect(() => {
+    setFilteredPokemons(fetchedPokemons)
+  }, [fetchedPokemons]);
+
 
   return (
     <main style={{width: '100%'}}>
@@ -137,7 +143,7 @@ function App() {
       <section className="pokecard-overview">
         <div className="search-sorting_container">
           <Search allPokemonNames={allPokemonNames}
-                  onClickAutocomplete={handleGetPokemonByName}/>
+                  onSearchStart={handleSearch}/>
 
           <div className="sorting_container">
             <label htmlFor="sort">Sortieren nach</label>
@@ -150,18 +156,21 @@ function App() {
           </div>
         </div>
 
+        {fetchedPokemons.length !== filteredPokemons.length && (
+          <div id="Number-filtered"
+               className="number-loaded d-none">
+            Es wurde{filteredPokemons.length > 1 ? "n" : ""} {filteredPokemons.length} Pokemon gefunden.
+          </div>
+        )}
+
         {fetchedPokemons.length > 0 && <div className="number-loaded">
           Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
-        </div>}
-
-        {/*<div id="Number-filtered"*/}
-        {/*     className="number-loaded d-none">*/}
-        {/*  Es wurden <span id="Number-filtered-pokemon"></span> Pokemon gefunden.*/}
-        {/*</div>*/}
+        </div>
+        }
 
         <div id="Pokemon-cards"
              className="pokemon-cards-container">
-          {fetchedPokemons.map((pokemon) => (
+          {filteredPokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id}
                          pokemon={pokemon}
                          onOpenPokedex={openPokedex}/>

@@ -1,15 +1,15 @@
 import './Search.scss';
-import { useState, ChangeEvent, useRef } from 'react';
+import { useState, ChangeEvent, useRef, KeyboardEvent } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside.tsx';
 
 
 interface SearchProps {
   allPokemonNames: string[];
-  onClickAutocomplete: (name: string) => void;
+  onSearchStart: (name: string) => void;
 }
 
-const Search = ({allPokemonNames, onClickAutocomplete}: SearchProps) => {
+const Search = ({allPokemonNames, onSearchStart}: SearchProps) => {
   const [searchString, setSearchString] = useState<string>('');
   const [shownPokemonNames, setShownPokemonNames] = useState<string[]>(allPokemonNames);
 
@@ -29,12 +29,20 @@ const Search = ({allPokemonNames, onClickAutocomplete}: SearchProps) => {
     } else setShowAutocomplete(false);
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      searchPokemon()
+      setShowAutocomplete(false)
+    }
+  }
+
   const searchPokemon = () => {
+    onSearchStart(searchString)
   };
 
   const handleNameClick = (name: string) => {
-    onClickAutocomplete(name);
     setSearchString(name);
+    onSearchStart(name);
     setShowAutocomplete(false);
   };
 
@@ -46,7 +54,8 @@ const Search = ({allPokemonNames, onClickAutocomplete}: SearchProps) => {
              type="text"
              placeholder="Suche Pokemon..."
              value={searchString}
-             onChange={handleSearchChange}/>
+             onChange={handleSearchChange}
+             onKeyDown={handleKeyDown}/>
 
       <IoMdSearch size={35}
                   className="search-icon_input"
