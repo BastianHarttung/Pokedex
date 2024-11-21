@@ -1,14 +1,15 @@
 import './Search.scss';
-import { IoMdSearch } from 'react-icons/io';
 import { useState, ChangeEvent, useRef } from 'react';
+import { IoMdSearch } from 'react-icons/io';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside.tsx';
 
 
 interface SearchProps {
   allPokemonNames: string[];
+  onClickAutocomplete: (name: string) => void;
 }
 
-const Search = ({allPokemonNames}: SearchProps) => {
+const Search = ({allPokemonNames, onClickAutocomplete}: SearchProps) => {
   const [searchString, setSearchString] = useState<string>('');
   const [shownPokemonNames, setShownPokemonNames] = useState<string[]>(allPokemonNames);
 
@@ -32,7 +33,7 @@ const Search = ({allPokemonNames}: SearchProps) => {
   };
 
   const handleNameClick = (name: string) => {
-    console.log('fetch card', name);
+    onClickAutocomplete(name);
     setSearchString(name);
     setShowAutocomplete(false);
   };

@@ -46,11 +46,11 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
   };
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    if(pokemon) document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [pokemon]);
 
 
   if (!pokemon) return null;

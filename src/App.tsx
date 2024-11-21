@@ -62,11 +62,13 @@ function App() {
 
   const loadMorePokemons = () => {
     setIsLoading(true);
-    fetchPokemonsById(20, pokemonIds).then(({pokemons, remainingIds}) => {
-      setPokemonIds(remainingIds);
-      setFetchedPokemons(prev => ([...prev, ...pokemons].sort((a, b) => sortPokemon(a, b, sortingOrder))));
-      setIsLoading(false);
-    });
+    fetchPokemonsById(20, pokemonIds)
+      .then(({pokemons, remainingIds}) => {
+        setPokemonIds(remainingIds);
+        setFetchedPokemons(prev => ([...prev, ...pokemons].sort((a, b) => sortPokemon(a, b, sortingOrder))));
+      })
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false))
   };
 
   const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -84,6 +86,23 @@ function App() {
     const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
     const nextPokemon = fetchedPokemons[Math.max(selectedId - 1, 0)]
     setSelectedPokemon(nextPokemon)
+  }
+
+  const handleGetPokemonByName = (name: string) => {
+    const findPokemon = fetchedPokemons.find(poke => poke.name === name);
+
+    if (!findPokemon) {
+      setIsLoading(true);
+      fetchPokemonByName(name)
+        .then(pokemon => {
+          if (pokemon) {
+            setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
+            setFetchedPokemons(prev => ([...prev, pokemon].sort((a, b) => sortPokemon(a, b, sortingOrder))))
+          }
+        })
+        .catch(error => console.error(error))
+        .finally(() => setIsLoading(false))
+    }
   }
 
   useEffect(() => {
@@ -117,7 +136,8 @@ function App() {
 
       <section className="pokecard-overview">
         <div className="search-sorting_container">
-          <Search allPokemonNames={allPokemonNames}/>
+          <Search allPokemonNames={allPokemonNames}
+                  onClickAutocomplete={handleGetPokemonByName}/>
 
           <div className="sorting_container">
             <label htmlFor="sort">Sortieren nach</label>
