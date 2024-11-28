@@ -1,43 +1,43 @@
-import Bug from '../assets/icons/pokemon_types/bug.svg';
-import Dark from '../assets/icons/pokemon_types/dark.svg';
-import Dragon from '../assets/icons/pokemon_types/dragon.svg';
-import Electric from '../assets/icons/pokemon_types/electric.svg';
-import Fairy from '../assets/icons/pokemon_types/fairy.svg';
-import Fighting from '../assets/icons/pokemon_types/fighting.svg';
-import Fire from '../assets/icons/pokemon_types/fire.svg';
-import Flying from '../assets/icons/pokemon_types/flying.svg';
-import Ghost from '../assets/icons/pokemon_types/ghost.svg';
-import Grass from '../assets/icons/pokemon_types/grass.svg';
-import Ground from '../assets/icons/pokemon_types/ground.svg';
-import Ice from '../assets/icons/pokemon_types/ice.svg';
-import Normal from '../assets/icons/pokemon_types/normal.svg';
-import Poison from '../assets/icons/pokemon_types/poison.svg';
-import Psychic from '../assets/icons/pokemon_types/psychic.svg';
-import Rock from '../assets/icons/pokemon_types/rock.svg';
-import Steel from '../assets/icons/pokemon_types/steel.svg';
-import Water from '../assets/icons/pokemon_types/water.svg';
+import BugColor from '../assets/icons/pokemon_types/bug_color.svg';
+import DarkColor from '../assets/icons/pokemon_types/dark_color.svg';
+import DragonColor from '../assets/icons/pokemon_types/dragon_color.svg';
+import ElectricColor from '../assets/icons/pokemon_types/electric_color.svg';
+import FairyColor from '../assets/icons/pokemon_types/fairy_color.svg';
+import FightingColor from '../assets/icons/pokemon_types/fighting_color.svg';
+import FireColor from '../assets/icons/pokemon_types/fire_color.svg';
+import FlyingColor from '../assets/icons/pokemon_types/flying_color.svg';
+import GhostColor from '../assets/icons/pokemon_types/ghost_color.svg';
+import GrassColor from '../assets/icons/pokemon_types/grass_color.svg';
+import GroundColor from '../assets/icons/pokemon_types/ground_color.svg';
+import IceColor from '../assets/icons/pokemon_types/ice_color.svg';
+import NormalColor from '../assets/icons/pokemon_types/normal_color.svg';
+import PoisonColor from '../assets/icons/pokemon_types/poison_color.svg';
+import PsychicColor from '../assets/icons/pokemon_types/psychic_color.svg';
+import RockColor from '../assets/icons/pokemon_types/rock_color.svg';
+import SteelColor from '../assets/icons/pokemon_types/steel_color.svg';
+import WaterColor from '../assets/icons/pokemon_types/water_color.svg';
 import { Pokemon } from 'pokenode-ts';
 
 
 const typeIcons: Record<string, string> = {
-  bug: Bug,
-  dark: Dark,
-  dragon: Dragon,
-  electric: Electric,
-  fairy: Fairy,
-  fighting: Fighting,
-  fire: Fire,
-  flying: Flying,
-  ghost: Ghost,
-  grass: Grass,
-  ground: Ground,
-  ice: Ice,
-  normal: Normal,
-  poison: Poison,
-  psychic: Psychic,
-  rock: Rock,
-  steel: Steel,
-  water: Water,
+  bug: BugColor,
+  dark: DarkColor,
+  dragon: DragonColor,
+  electric: ElectricColor,
+  fairy: FairyColor,
+  fighting: FightingColor,
+  fire: FireColor,
+  flying: FlyingColor,
+  ghost: GhostColor,
+  grass: GrassColor,
+  ground: GroundColor,
+  ice: IceColor,
+  normal: NormalColor,
+  poison: PoisonColor,
+  psychic: PsychicColor,
+  rock: RockColor,
+  steel: SteelColor,
+  water: WaterColor,
 };
 
 const typeTranslations = new Map<string, string>([
@@ -67,5 +67,5 @@ export const getType = (pokemon: Pokemon) => {
 };
 
 export const getTypeIcon = (pokemon: Pokemon) => {
-  return typeIcons[pokemon.types[0].type.name] || Normal;
+  return typeIcons[pokemon.types[0].type.name] || NormalColor;
 };

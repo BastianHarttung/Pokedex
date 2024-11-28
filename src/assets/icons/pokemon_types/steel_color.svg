@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="_15" serif:id="15" transform="matrix(0.738723,0,0,0.738723,-17.7293,-10.3421)">
+        <circle cx="91.684" cy="81.684" r="67.684" style="fill:rgb(139,146,154);"/>
+    </g>
+    <g id="_15-steel_Stahl" serif:id="15 steel_Stahl" transform="matrix(0.656673,0,0,0.656673,-204.725,-299.186)">
+        <path d="M374.883,497.632L357.827,497.632L347.367,514.119L356.69,530.379L343.159,530.379L334.632,514.915L351.346,487.285L369.539,487.285L374.883,497.632Z"/>
+        <g transform="matrix(-1,0,0,1,775.804,-5.68434e-14)">
+            <path d="M374.883,497.632L357.827,497.632L347.367,514.119L356.69,530.379L343.159,530.379L334.632,514.915L351.346,487.285L369.539,487.285L374.883,497.632Z"/>
+        </g>
+        <g transform="matrix(-0.521594,-0.853194,0.853194,-0.521594,139.448,1133.31)">
+            <path d="M374.883,497.632L357.896,497.81L347.794,514.38L354.911,529.771L343.273,530.478L334.632,514.915L351.537,487.196L369.539,487.285L374.883,497.632Z"/>
+        </g>
+        <g transform="matrix(-1.0738,-1.31503e-16,1.2668e-16,-1.03442,778.931,1083.65)">
+            <path d="M364.198,511.857L387.616,554.141L340.78,554.141L364.198,511.857Z"/>
+        </g>
+    </g>
+</svg>

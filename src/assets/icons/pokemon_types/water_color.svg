@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="_2" serif:id="2" transform="matrix(0.738723,0,0,0.738723,-17.7293,-10.3421)">
+        <circle cx="91.684" cy="81.684" r="67.684" style="fill:rgb(25,130,228);"/>
+    </g>
+    <g id="_2-water_Wasser" serif:id="2 water_Wasser" transform="matrix(0.727519,0,0,0.727519,-120.518,-14.2614)">
+        <path d="M280.817,40.165C270.502,44.01 249.889,53.113 249.889,63.41C249.889,73.706 253.196,78.705 259.376,85.202C266.071,92.241 273.848,102.291 274.183,115.694C274.573,131.262 249.144,140.873 222.117,134.257C204.504,129.945 186.702,113.482 188.018,91.918C188.66,81.393 197.477,68.552 205.611,61.525C220.593,48.581 255.998,41.321 280.817,40.165ZM226.044,115.995C218.101,113.267 210.744,113.696 209.626,116.953C208.507,120.209 214.048,125.068 221.992,127.795C229.935,130.523 237.292,130.094 238.41,126.837C239.528,123.581 233.987,118.722 226.044,115.995Z"/>
+    </g>
+</svg>
