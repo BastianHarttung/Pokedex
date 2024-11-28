@@ -29,10 +29,11 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
 
   const pokemonSounds = [pokemonWithSound?.cries?.latest, pokemonWithSound?.cries?.legacy].filter(sound => sound !== null);
 
+  let currentSoundIndex = 0
+
   const handleAudioPlay = () => {
-    if (!isAudioPlaying) {
-      const randomIndex = Math.floor(Math.random() * pokemonSounds.length);
-      const audio = new Audio(pokemonSounds[randomIndex]);
+    if (!isAudioPlaying && pokemonSounds.length > 0) {
+      const audio = new Audio(pokemonSounds[currentSoundIndex]);
       audio.volume = 0.2;
       audio.addEventListener('playing', () => setIsAudioPlaying(true));
       audio.addEventListener('ended', () => setIsAudioPlaying(false));
@@ -42,11 +43,13 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
           setIsAudioPlaying(false);
           console.error('Error playing sound', err);
         });
+
+      currentSoundIndex = (currentSoundIndex + 1) % pokemonSounds.length;
     }
   };
 
   useEffect(() => {
-    if(pokemon) document.body.style.overflow = "hidden";
+    if (pokemon) document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -87,11 +90,12 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
                                   src={picturePokedex}
                                   alt="Pokemon Bild"/>}
 
-          <div className="play-btn_container"
-               onClick={handleAudioPlay}>
+          {pokemonSounds.length > 0 && <div className="play-btn_container"
+                                            onClick={handleAudioPlay}>
             {isAudioPlaying ? <i className="fas fa-stop"></i>
               : <i className="fas fa-play"></i>}
-          </div>
+          </div>}
+
           <div className="pokedex-stats-container">
             <div className="pokedex-stats-title">
               <div className="pokedex-stat-title">ID</div>

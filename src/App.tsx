@@ -5,7 +5,7 @@ import { NamedAPIResource, NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 import Header from './components/Header/Header.tsx';
-import { fetchPokemonByName, fetchPokemonList, fetchPokemonsById } from './api/pokemonAPI.ts';
+import { fetchPokemonById, fetchPokemonByName, fetchPokemonList } from './api/pokemonAPI.ts';
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
 import Search from './components/Search/Search.tsx';
@@ -64,15 +64,25 @@ function App() {
     window.scrollTo(0, 0);
   };
 
-  const loadMorePokemons = () => {
+  const loadMorePokemons = (count: number) => {
+    const fetchPromises: Promise<void>[] = []
+
     setIsLoading(true);
-    fetchPokemonsById(20, pokemonIds)
-      .then(({pokemons, remainingIds}) => {
-        setPokemonIds(remainingIds);
-        setFetchedPokemons(prev => ([...prev, ...pokemons].sort((a, b) => sortPokemon(a, b, sortingOrder))));
-      })
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
+
+    pokemonIds.slice(0, count).forEach((pokeId: number) => {
+      const fetchPromise = fetchPokemonById(pokeId)
+        .then((pokemon: Pokemon) => {
+          setPokemonIds((prev: number[]) => prev.filter((id) => id !== pokeId));
+          setFetchedPokemons((prev: Pokemon[]) => ([...prev, pokemon]))
+        })
+        .catch(error => console.error(`Error fetching Id: ${pokeId}`, error))
+
+      fetchPromises.push(fetchPromise);
+    })
+
+    Promise.allSettled(fetchPromises).then(() => {
+      setIsLoading(false);
+    })
   };
 
   const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -98,7 +108,7 @@ function App() {
       .then(pokemon => {
         if (pokemon) {
           setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
-          setFetchedPokemons(prev => ([...prev, pokemon].sort((a, b) => sortPokemon(a, b, sortingOrder))))
+          setFetchedPokemons(prev => ([...prev, pokemon]))
         } else {
           setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(name)))
         }
@@ -109,7 +119,7 @@ function App() {
 
   useEffect(() => {
     if (allPokemonCount) {
-      loadMorePokemons();
+      loadMorePokemons(20);
     } else {
       setIsLoading(true);
       fetchPokemonList().then((list: NamedAPIResourceList | null) => {
@@ -124,16 +134,10 @@ function App() {
   }, [allPokemonCount]);
 
   useEffect(() => {
-    setFetchedPokemons(prev => {
-      const prevClone = [...prev];
-      prevClone.sort((a, b) => sortPokemon(a, b, sortingOrder));
-      return prevClone;
-    });
-  }, [sortingOrder]);
-
-  useEffect(() => {
-    setFilteredPokemons(fetchedPokemons)
-  }, [fetchedPokemons]);
+    const fetchedClone = [...fetchedPokemons];
+    fetchedClone.sort((a, b) => sortPokemon(a, b, sortingOrder));
+    setFilteredPokemons(fetchedClone)
+  }, [sortingOrder, fetchedPokemons]);
 
 
   return (
@@ -189,7 +193,7 @@ function App() {
         </div>}
 
         <div className="button-more-poke-container">
-          <button onClick={loadMorePokemons}>mehr Pokemon</button>
+          <button onClick={() => loadMorePokemons(20)}>mehr Pokemon</button>
         </div>
 
         <div id="Arrow-up-button"

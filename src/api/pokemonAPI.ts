@@ -12,6 +12,10 @@ export const fetchPokemonList = async () => {
   }
 };
 
+export const fetchPokemonById = async (id: number): Promise<Pokemon> => {
+  return await api.getPokemonById(id)
+}
+
 export const fetchPokemonsById = async (count: number, ids: number[]): Promise<{
   pokemons: Pokemon[],
   remainingIds: number[]
