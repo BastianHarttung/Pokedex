@@ -1,6 +1,7 @@
 import './App.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
+import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
@@ -12,7 +13,6 @@ import Search from './components/Search/Search.tsx';
 import { Sorting } from './models/enums.ts';
 import { getPokemonIdRandomArray, sortPokemon } from "./helper/helper.ts";
 import { Sort } from "./models/interfaces.ts";
-import { GoSortAsc, GoSortDesc } from "react-icons/go";
 
 
 const sortingOptions = [
@@ -39,20 +39,9 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [sorting, setSorting] = useState<Sort>({sorting: Sorting.ID, direction: "asc"});
+  const [searchString, setSearchString] = useState("")
 
-  const handleSearch = (search: string) => {
-    if (!search) {
-      setFilteredPokemons(fetchedPokemons);
-    } else {
-      const findPokemon = fetchedPokemons.find(poke => poke.name === search);
-      if (findPokemon) {
-        setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(search)));
-      } else {
-        getPokemonByName(search)
-      }
-    }
-  };
+  const [sorting, setSorting] = useState<Sort>({sorting: Sorting.ID, direction: "asc"});
 
   const openPokedex = (pokemon: Pokemon) => {
     setSelectedPokemon(pokemon);
@@ -96,15 +85,20 @@ function App() {
   }
 
   const handleNextPokemon = () => {
-    const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
-    const nextPokemon = fetchedPokemons[Math.min(selectedId + 1, fetchedPokemons.length - 1)]
+    const selectedId = filteredPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
+    const nextPokemon = filteredPokemons[Math.min(selectedId + 1, filteredPokemons.length - 1)]
     setSelectedPokemon(nextPokemon)
   }
 
   const handlePrevPokemon = () => {
-    const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
-    const nextPokemon = fetchedPokemons[Math.max(selectedId - 1, 0)]
-    setSelectedPokemon(nextPokemon)
+    const selectedId = filteredPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
+    const prevPokemon = filteredPokemons[Math.max(selectedId - 1, 0)]
+    setSelectedPokemon(prevPokemon)
+  }
+
+  const handleSearch = (search: string) => {
+    filterPokemon(search);
+    setSearchString(search)
   }
 
   const getPokemonByName = (name: string) => {
@@ -114,12 +108,17 @@ function App() {
         if (pokemon) {
           setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
           setFetchedPokemons(prev => ([...prev, pokemon]))
-        } else {
-          setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(name)))
+          filterPokemon(name)
         }
+        filterPokemon(name)
       })
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
+  }
+
+  const filterPokemon = (search: string) => {
+    if (!search) setFilteredPokemons(fetchedPokemons);
+    else setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(searchString)));
   }
 
   useEffect(() => {
@@ -143,6 +142,17 @@ function App() {
     fetchedClone.sort((a, b) => sortPokemon(a, b, sorting));
     setFilteredPokemons(fetchedClone)
   }, [sorting, fetchedPokemons]);
+
+  useEffect(() => {
+    console.log(searchString);
+    const isInAllPokemonNames = allPokemonNames.includes(searchString)
+    const isAllreadyFetched = fetchedPokemons.some((pokemon) => pokemon.name === searchString);
+
+    if (isInAllPokemonNames && !isAllreadyFetched) {
+      getPokemonByName(searchString)
+    }
+    filterPokemon(searchString)
+  }, [searchString]);
 
 
   return (
@@ -177,17 +187,17 @@ function App() {
           </div>
         </div>
 
-        {fetchedPokemons.length !== filteredPokemons.length && (
-          <div id="Number-filtered"
-               className="number-loaded d-none">
-            Es wurde{filteredPokemons.length > 1 ? "n" : ""} {filteredPokemons.length} Pokemon gefunden.
-          </div>
-        )}
-
         {fetchedPokemons.length > 0 && <div className="number-loaded">
           Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
         </div>
         }
+
+        {fetchedPokemons.length !== filteredPokemons.length && (
+          <div id="Number-filtered"
+               className="number-loaded d-none">
+            Es wurde{filteredPokemons.length > 1 ? "n" : ""} darin {filteredPokemons.length} Pokemon gefunden.
+          </div>
+        )}
 
         <div id="Pokemon-cards"
              className="pokemon-cards-container">
@@ -205,9 +215,9 @@ function App() {
                alt="Loading..."/>
         </div>}
 
-        {fetchedPokemons.length > 0 && <div className="number-loaded">
-          Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
-        </div>}
+        {/*{fetchedPokemons.length > 0 && <div className="number-loaded">*/}
+        {/*  Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.*/}
+        {/*</div>}*/}
 
         <div className="button-more-poke-container">
           <button onClick={() => loadMorePokemons(20)}>mehr Pokemon</button>
