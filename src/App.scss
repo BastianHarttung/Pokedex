@@ -24,6 +24,21 @@
     font-size: 0.8em;
   }
 
+  .sorting-input_container {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    .direction-icon {
+      color: #727272;
+      cursor: pointer;
+
+      &:hover {
+        color: black;
+      }
+    }
+  }
+
   select {
     color: #333;
     border: 1px solid gray;

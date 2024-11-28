@@ -1,7 +1,7 @@
 import './App.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-import { NamedAPIResource, NamedAPIResourceList, Pokemon } from 'pokenode-ts';
+import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 import Header from './components/Header/Header.tsx';
@@ -10,6 +10,9 @@ import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
 import Search from './components/Search/Search.tsx';
 import { Sorting } from './models/enums.ts';
+import { getPokemonIdRandomArray, sortPokemon } from "./helper/helper.ts";
+import { Sort } from "./models/interfaces.ts";
+import { GoSortAsc, GoSortDesc } from "react-icons/go";
 
 
 const sortingOptions = [
@@ -30,14 +33,13 @@ function App() {
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
   const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
-  // const displayPokemon = filteredPokemon.length > 0 ? filteredPokemon : fetchedPokemons;
 
   const [isPokedexOpen, setIsPokedexOpen] = useState<boolean>(true);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [sortingOrder, setSortingOrder] = useState<Sorting>(Sorting.ID);
+  const [sorting, setSorting] = useState<Sort>({sorting: Sorting.ID, direction: "asc"});
 
   const handleSearch = (search: string) => {
     if (!search) {
@@ -58,7 +60,6 @@ function App() {
   };
 
   const closePokedex = () => setIsPokedexOpen(false);
-
 
   const goToTop = () => {
     window.scrollTo(0, 0);
@@ -87,8 +88,12 @@ function App() {
 
   const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value as Sorting;
-    setSortingOrder(value);
+    setSorting(prev => ({...prev, sorting: value}));
   };
+
+  const handleDirectionChange = () => {
+    setSorting(prev => ({...prev, direction: prev.direction === "asc" ? "desc" : "asc"}));
+  }
 
   const handleNextPokemon = () => {
     const selectedId = fetchedPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
@@ -135,9 +140,9 @@ function App() {
 
   useEffect(() => {
     const fetchedClone = [...fetchedPokemons];
-    fetchedClone.sort((a, b) => sortPokemon(a, b, sortingOrder));
+    fetchedClone.sort((a, b) => sortPokemon(a, b, sorting));
     setFilteredPokemons(fetchedClone)
-  }, [sortingOrder, fetchedPokemons]);
+  }, [sorting, fetchedPokemons]);
 
 
   return (
@@ -151,12 +156,24 @@ function App() {
 
           <div className="sorting_container">
             <label htmlFor="sort">Sortieren nach</label>
-            <select name="sort" id="sort"
-                    onChange={handleSortChange}>
-              {sortingOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+
+            <div className="sorting-input_container">
+              <select name="sort" id="sort"
+                      onChange={handleSortChange}>
+                {sortingOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+              {sorting.direction === "asc" ? (
+                  <GoSortAsc size={24}
+                             className="direction-icon"
+                             title="Aktuell aufsteigend sortiert"
+                             onClick={handleDirectionChange}/>)
+                : <GoSortDesc size={24}
+                              className="direction-icon"
+                              title="Aktuell absteigend sortiert"
+                              onClick={handleDirectionChange}/>}
+            </div>
           </div>
         </div>
 
@@ -211,46 +228,6 @@ function App() {
       <Footer/>
     </main>
   );
-}
-
-function sortPokemon(a: Pokemon, b: Pokemon, sortingOrder: Sorting) {
-  let valueA;
-  let valueB;
-
-  if (sortingOrder === Sorting.HP) {
-    valueA = a.stats[0].base_stat
-    valueB = b.stats[0].base_stat
-  } else if (sortingOrder === Sorting.TYPE) {
-    valueA = a.types[0].type.name
-    valueB = b.types[0].type.name
-  } else {
-    valueA = a[sortingOrder];
-    valueB = b[sortingOrder];
-  }
-
-  if (typeof valueA === 'number' && typeof valueB === 'number') {
-    return valueA - valueB;
-  } else if (typeof valueA === 'string' && typeof valueB === 'string') {
-    return valueA.localeCompare(valueB);
-  } else return 0;
-}
-
-function getPokemonIdRandomArray(pokemonList: NamedAPIResource[]) {
-  const idList = pokemonList.map(pokemon => {
-    const match = pokemon.url.match(/\/pokemon\/(\d+)\//);
-    return match ? parseInt(match[1], 10) : null;
-  }).filter(id => id !== null);
-
-  return shuffleArray(idList);
-}
-
-function shuffleArray(array: number[]): number[] {
-  const result = [...array];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]]; // Swap
-  }
-  return result;
 }
 
 export default App;
