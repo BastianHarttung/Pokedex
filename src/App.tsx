@@ -1,5 +1,5 @@
 import './App.scss';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
@@ -97,8 +97,6 @@ function App() {
   }
 
   const handleSearch = (search: string) => {
-    filterPokemon(search);
-    sortingPokemon();
     setSearchString(search);
   }
 
@@ -120,10 +118,6 @@ function App() {
     else setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(searchString)));
   }
 
-  const sortingPokemon = useCallback(() => {
-    setFilteredPokemons(prevFiltered => [...prevFiltered].sort((a, b) => sortPokemon(a, b, sorting)))
-  }, [sorting])
-
   useEffect(() => {
     if (allPokemonCount) {
       loadMorePokemons(20);
@@ -141,10 +135,6 @@ function App() {
   }, [allPokemonCount]);
 
   useEffect(() => {
-    sortingPokemon();
-  }, [sortingPokemon]);
-
-  useEffect(() => {
     const isInAllPokemonNames = allPokemonNames.includes(searchString)
     const isAlreadyFetched = fetchedPokemons.some((pokemon) => pokemon.name === searchString);
 
@@ -153,6 +143,22 @@ function App() {
     }
     filterPokemon(searchString)
   }, [searchString, fetchedPokemons]);
+
+  useEffect(() => {
+    const filterAndSortPokemons = () => {
+      const filtered = !searchString
+        ? fetchedPokemons
+        : fetchedPokemons.filter((pokemon) =>
+          pokemon.name.toLowerCase().includes(searchString.toLowerCase())
+        );
+
+      const sorted = [...filtered].sort((a, b) => sortPokemon(a, b, sorting));
+
+      setFilteredPokemons(sorted);
+    };
+
+    filterAndSortPokemons();
+  }, [fetchedPokemons, searchString, sorting]);
 
 
   return (
