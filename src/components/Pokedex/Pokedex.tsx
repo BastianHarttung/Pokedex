@@ -1,8 +1,8 @@
 import './Pokedex.scss';
-import PokedexBG from '../../assets/images/pokedex-bg.png';
+import { useEffect, useRef, useState } from 'react';
 import { Pokemon } from 'pokenode-ts';
+import PokedexBG from '../../assets/images/pokedex-bg.png';
 import { PokemonWithSound } from '../../models/interfaces.ts';
-import { useEffect, useState } from 'react';
 import { getTypeIcon, getType } from '../../constants/typeIcons.ts';
 
 
@@ -14,7 +14,10 @@ interface PokedexProps {
 }
 
 const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
 
   const picturePokedex = pokemon?.sprites.other?.dream_world.front_default || pokemon?.sprites.other?.
     ['official-artwork'].front_default;
@@ -29,24 +32,43 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
 
   const pokemonSounds = [pokemonWithSound?.cries?.latest, pokemonWithSound?.cries?.legacy].filter(sound => sound !== null);
 
-  let currentSoundIndex = 0
+  const handleAudio = () => {
+    const playAudio = () => {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(pokemonSounds[currentSoundIndex]);
+        audioRef.current.volume = 0.2;
 
-  const handleAudioPlay = () => {
-    if (!isAudioPlaying && pokemonSounds.length > 0) {
-      const audio = new Audio(pokemonSounds[currentSoundIndex]);
-      audio.volume = 0.2;
-      audio.addEventListener('playing', () => setIsAudioPlaying(true));
-      audio.addEventListener('ended', () => setIsAudioPlaying(false));
-      audio.addEventListener('error', () => setIsAudioPlaying(false));
-      audio.play()
+        audioRef.current.addEventListener('playing', () => setIsAudioPlaying(true));
+        audioRef.current.addEventListener('ended', () => {
+          setIsAudioPlaying(false)
+          setCurrentSoundIndex((prev) => (prev + 1) % pokemonSounds.length);
+          audioRef.current = null;
+        });
+        audioRef.current.addEventListener('error', () => {
+          setIsAudioPlaying(false)
+          console.error("Audio playback error")
+          audioRef.current = null
+        });
+      }
+      audioRef.current.play()
         .catch((err) => {
           setIsAudioPlaying(false);
           console.error('Error playing sound', err);
         });
-
-      currentSoundIndex = (currentSoundIndex + 1) % pokemonSounds.length;
     }
-  };
+
+    const stopAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsAudioPlaying(false);
+      }
+    };
+
+    if (!isAudioPlaying && pokemonSounds.length > 0) playAudio()
+    else stopAudio();
+  }
+
 
   useEffect(() => {
     if (pokemon) document.body.style.overflow = "hidden";
@@ -91,7 +113,7 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
                                   alt="Pokemon Bild"/>}
 
           {pokemonSounds.length > 0 && <div className="play-btn_container"
-                                            onClick={handleAudioPlay}>
+                                            onClick={handleAudio}>
             {isAudioPlaying ? <i className="fas fa-stop"></i>
               : <i className="fas fa-play"></i>}
           </div>}
