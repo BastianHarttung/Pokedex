@@ -17,10 +17,16 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0);
 
-  const picturePokedex = pokemon?.sprites.other?.dream_world.front_default || pokemon?.sprites.other?.
-    ['official-artwork'].front_default;
+  const [imageIndex, setImageIndex] = useState(0)
+
+  const picturesPokedex: string[] = [pokemon?.sprites.other?.dream_world.front_default,
+    pokemon?.sprites.other?.["official-artwork"].front_default,
+    pokemon?.sprites.other?.home.front_default,
+    pokemon?.sprites.other?.showdown.front_default,
+  ].filter((img: string | null) => img !== null && img !== undefined)
+
 
   const maxStat = Math.max(pokemon?.stats[0].base_stat || 0,
     pokemon?.stats[1].base_stat || 0,
@@ -69,6 +75,19 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
     else stopAudio();
   }
 
+  const handlePrevPokemon = () => {
+    onPrevPokemon()
+    setImageIndex(0)
+  }
+
+  const handleNextPokemon = () => {
+    onNextPokemon()
+    setImageIndex(0)
+  }
+
+  const handleNextImage = () => {
+    setImageIndex(prev => (prev + 1) % picturesPokedex.length)
+  }
 
   useEffect(() => {
     if (pokemon) document.body.style.overflow = "hidden";
@@ -85,7 +104,7 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
              className="pokedex-lightbox d-none">
       <div id="Arrow-left-container"
            className="arrow-left-container buttons-continue"
-           onClick={onPrevPokemon}>
+           onClick={handlePrevPokemon}>
         <i className="fas fa-arrow-left"
            title="Before"></i>
       </div>
@@ -108,9 +127,10 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
                className="type-icon"
                title={getType(pokemon)}/>
 
-          {picturePokedex && <img className="pokemon-img"
-                                  src={picturePokedex}
-                                  alt="Pokemon Bild"/>}
+          {picturesPokedex.length > 0 && <img className="pokemon-img"
+                                              src={picturesPokedex[imageIndex]}
+                                              alt="Pokemon Bild"
+                                              onClick={handleNextImage}/>}
 
           {pokemonSounds.length > 0 && <div className="play-btn_container"
                                             onClick={handleAudio}>
@@ -163,7 +183,7 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
 
       <div id="Arrow-right-container"
            className="arrow-right-container buttons-continue"
-           onClick={onNextPokemon}>
+           onClick={handleNextPokemon}>
         <i className="fas fa-arrow-right" title="Next"></i>
       </div>
     </section>
