@@ -215,10 +215,6 @@ function App() {
                alt="Loading..."/>
         </div>}
 
-        {/*{fetchedPokemons.length > 0 && <div className="number-loaded">*/}
-        {/*  Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.*/}
-        {/*</div>}*/}
-
         <div className="button-more-poke-container">
           <button onClick={() => loadMorePokemons(20)}>mehr Pokemon</button>
         </div>
