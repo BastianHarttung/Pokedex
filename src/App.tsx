@@ -1,5 +1,5 @@
 import './App.scss';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
@@ -98,7 +98,8 @@ function App() {
 
   const handleSearch = (search: string) => {
     filterPokemon(search);
-    setSearchString(search)
+    sortingPokemon();
+    setSearchString(search);
   }
 
   const getPokemonByName = (name: string) => {
@@ -108,9 +109,7 @@ function App() {
         if (pokemon) {
           setPokemonIds(prev => prev.filter(id => id !== pokemon.id))
           setFetchedPokemons(prev => ([...prev, pokemon]))
-          filterPokemon(name)
         }
-        filterPokemon(name)
       })
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
@@ -120,6 +119,10 @@ function App() {
     if (!search) setFilteredPokemons(fetchedPokemons);
     else setFilteredPokemons(fetchedPokemons.filter((pokemon) => pokemon.name.includes(searchString)));
   }
+
+  const sortingPokemon = useCallback(() => {
+    setFilteredPokemons(prevFiltered => [...prevFiltered].sort((a, b) => sortPokemon(a, b, sorting)))
+  }, [sorting])
 
   useEffect(() => {
     if (allPokemonCount) {
@@ -138,21 +141,18 @@ function App() {
   }, [allPokemonCount]);
 
   useEffect(() => {
-    const fetchedClone = [...fetchedPokemons];
-    fetchedClone.sort((a, b) => sortPokemon(a, b, sorting));
-    setFilteredPokemons(fetchedClone)
-  }, [sorting, fetchedPokemons]);
+    sortingPokemon();
+  }, [sortingPokemon]);
 
   useEffect(() => {
-    console.log(searchString);
     const isInAllPokemonNames = allPokemonNames.includes(searchString)
-    const isAllreadyFetched = fetchedPokemons.some((pokemon) => pokemon.name === searchString);
+    const isAlreadyFetched = fetchedPokemons.some((pokemon) => pokemon.name === searchString);
 
-    if (isInAllPokemonNames && !isAllreadyFetched) {
+    if (isInAllPokemonNames && !isAlreadyFetched) {
       getPokemonByName(searchString)
     }
     filterPokemon(searchString)
-  }, [searchString]);
+  }, [searchString, fetchedPokemons]);
 
 
   return (

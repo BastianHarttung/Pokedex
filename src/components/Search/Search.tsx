@@ -2,6 +2,7 @@ import './Search.scss';
 import { useState, ChangeEvent, useRef, KeyboardEvent } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside.tsx';
+import { IoClose } from "react-icons/io5";
 
 
 interface SearchProps {
@@ -40,6 +41,11 @@ const Search = ({allPokemonNames, onSearchStart}: SearchProps) => {
     onSearchStart(searchString)
   };
 
+  const handleClear = () => {
+    setSearchString("")
+    onSearchStart("")
+  }
+
   const handleNameClick = (name: string) => {
     setSearchString(name);
     onSearchStart(name);
@@ -50,6 +56,11 @@ const Search = ({allPokemonNames, onSearchStart}: SearchProps) => {
   return (
     <div className="search-container"
          ref={containerRef}>
+      <IoMdSearch size={35}
+                  className="search-icon_input"
+                  title="Suche starten"
+                  onClick={searchPokemon}/>
+
       <input id="Search-input"
              type="text"
              placeholder="Suche Pokemon..."
@@ -57,10 +68,10 @@ const Search = ({allPokemonNames, onSearchStart}: SearchProps) => {
              onChange={handleSearchChange}
              onKeyDown={handleKeyDown}/>
 
-      <IoMdSearch size={35}
-                  className="search-icon_input"
-                  title="Suche starten"
-                  onClick={searchPokemon}/>
+      {searchString && <IoClose size={26}
+                                title="Zurücksetzen"
+                                className="clear-icon"
+                                onClick={handleClear}/>}
 
       {showAutocomplete && <div className="auto-complete_container">
         {shownPokemonNames.map((name, index) => (
