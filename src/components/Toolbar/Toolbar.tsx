@@ -65,16 +65,19 @@ const Toolbar = (
         </div>
       </div>
 
-      {fetchedPokemonLength > 0 && <div className="number-loaded">
-        Es sind {fetchedPokemonLength} von {allPokemonNames?.length} Pokemon geladen.
-      </div>
-      }
+      <div className="number-loaded">
+        {fetchedPokemonLength > 0 && (
+          <div>
+            <b>{fetchedPokemonLength}</b> von {allPokemonNames?.length} geladen.
+          </div>
+        )}
 
-      {fetchedPokemonLength !== filteredPokemonLength && (
-        <div className="number-loaded">
-          Es wurde{filteredPokemonLength > 1 ? "n" : ""} darin {filteredPokemonLength} Pokemon gefunden.
-        </div>
-      )}
+        {fetchedPokemonLength !== filteredPokemonLength && (
+          <div>
+            <b>{filteredPokemonLength}</b> Pokemon gefunden.
+          </div>
+        )}
+      </div>
     </div>
   );
 };
