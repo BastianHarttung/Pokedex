@@ -30,6 +30,8 @@ function App() {
 
   const [sorting, setSorting] = useState<Sort>({sorting: Sorting.ID, direction: "asc"});
 
+  const [morePokemonInput, setMorePokemonInput] = useState(20)
+
   const openPokedex = (pokemon: Pokemon) => {
     setSelectedPokemon(pokemon);
     setIsPokedexOpen(true);
@@ -40,6 +42,11 @@ function App() {
   const goToTop = () => {
     window.scrollTo(0, 0);
   };
+
+  const handleChangeMoreInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setMorePokemonInput(Number(value));
+  }
 
   const loadMorePokemons = (count: number) => {
     const fetchPromises: Promise<void>[] = []
@@ -175,9 +182,16 @@ function App() {
                alt="Loading..."/>
         </div>}
 
-        <div className="button-more-poke-container">
-          <button onClick={() => loadMorePokemons(20)}>mehr Pokemon</button>
-        </div>
+        {pokemonIds.length > 0 && <div className="button-more-poke-container">
+          <input type="number"
+                 min={1}
+                 max={pokemonIds.length}
+                 value={morePokemonInput}
+                 onChange={handleChangeMoreInput}/>
+          <button onClick={() => loadMorePokemons(morePokemonInput)}>
+            <span className="placeholder-input"></span> mehr Pokemon
+          </button>
+        </div>}
 
         <div id="Arrow-up-button"
              className="arrow-up-container d-none"

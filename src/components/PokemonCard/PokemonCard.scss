@@ -6,18 +6,22 @@
   margin: 10px;
   cursor: pointer;
   transition: transform 160ms ease-in-out;
-}
 
-.pokemon-card:hover {
-  transform: scale(1.08);
-}
+  &:hover {
+    transform: scale(1.08);
 
-.pokemon-card-bg {
-  height: 350px;
-  width: 250px;
-  object-fit: contain;
-  border-radius: 15px;
-  box-shadow: 0 5px 10px var(--shadow);
+    .pokemon-card-bg {
+      filter: drop-shadow(0 2px 5px var(--shadow));
+    }
+  }
+
+  .pokemon-card-bg {
+    height: 350px;
+    width: 250px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 2px var(--shadow));
+    transition: filter 160ms ease-in-out;
+  }
 }
 
 .pokemon-card-content {

@@ -66,9 +66,15 @@ const Toolbar = (
       </div>
 
       <div className="number-loaded">
-        {fetchedPokemonLength > 0 && (
+        {(fetchedPokemonLength > 0 && fetchedPokemonLength < (allPokemonNames?.length || 1302)) && (
           <div>
             <b>{fetchedPokemonLength}</b> von {allPokemonNames?.length} geladen.
+          </div>
+        )}
+
+        {fetchedPokemonLength >= (allPokemonNames?.length || 1302) && (
+          <div>
+            Alle {allPokemonNames?.length || 1302} Pokemon geladen
           </div>
         )}
 
