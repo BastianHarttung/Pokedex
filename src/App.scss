@@ -7,54 +7,6 @@
   padding: 40px;
 }
 
-.search-sorting_container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.sorting_container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-
-  label {
-    font-size: 0.8em;
-  }
-
-  .sorting-input_container {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-
-    .direction-icon {
-      color: #727272;
-      cursor: pointer;
-
-      &:hover {
-        color: black;
-      }
-    }
-  }
-
-  select {
-    color: #333;
-    border: 1px solid gray;
-    border-radius: 8px;
-    outline: none;
-    font-size: 14px;
-    box-sizing: border-box;
-    padding: 4px 8px;
-    margin: 1px;
-
-    &:focus {
-      border: 2px solid rgb(77, 77, 77);
-      margin: 0;
-    }
-  }
-}
 
 @media(max-width: 1300px) {
   .pokecard-overview {
@@ -69,17 +21,6 @@
   }
 }
 
-@media(max-width: 530px) {
-  .search-sorting_container {
-    gap: 0.5rem;
-  }
-  .sorting_container {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-  }
-}
-
 .pokemon-cards-container {
   width: 100%;
   max-width: var(--max-width_content);
@@ -87,13 +28,11 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 12px 0 0 0;
 }
 
 .number-loaded {
   font-size: 21px;
   font-weight: 600;
-  margin-top: 20px;
   text-align: center;
 }
 

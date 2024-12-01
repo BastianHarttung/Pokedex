@@ -1,7 +1,6 @@
 import './App.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
@@ -9,26 +8,14 @@ import Header from './components/Header/Header.tsx';
 import { fetchPokemonById, fetchPokemonByName, fetchPokemonList } from './api/pokemonAPI.ts';
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
-import Search from './components/Search/Search.tsx';
 import { Sorting } from './models/enums.ts';
 import { getPokemonIdRandomArray, sortPokemon } from "./helper/helper.ts";
 import { Sort } from "./models/interfaces.ts";
+import Toolbar from "./components/Toolbar/Toolbar.tsx";
 
-
-const sortingOptions = [
-  {value: Sorting.ID, label: 'ID #'},
-  {value: Sorting.NAME, label: 'Name'},
-  {value: Sorting.BASE_EXPERIENCE, label: 'Erfahrung'},
-  {value: Sorting.HP, label: 'HP (Health Points)'},
-  {value: Sorting.TYPE, label: 'Typ'},
-  {value: Sorting.ORDER, label: 'Reihenfolge'},
-  {value: Sorting.HEIGHT, label: 'Größe'},
-  {value: Sorting.WEIGHT, label: 'Gewicht'},
-];
 
 function App() {
-  const [allPokemonCount, setAllPokemonCount] = useState<number>(0);
-  const [allPokemonNames, setAllPokemonNames] = useState<string[]>([]);
+  const [allPokemonNames, setAllPokemonNames] = useState<string[] | null>(null);
   const [pokemonIds, setPokemonIds] = useState<number[]>([]);
 
   const [fetchedPokemons, setFetchedPokemons] = useState<Pokemon[]>([]);
@@ -119,23 +106,22 @@ function App() {
   }
 
   useEffect(() => {
-    if (allPokemonCount) {
+    if (allPokemonNames) {
       loadMorePokemons(20);
     } else {
       setIsLoading(true);
       fetchPokemonList().then((list: NamedAPIResourceList | null) => {
         if (list) {
-          setAllPokemonCount(list.count);
           setAllPokemonNames(list.results.map((pok) => pok.name).sort((a, b) => a.localeCompare(b)));
           setPokemonIds(getPokemonIdRandomArray(list.results));
           setIsLoading(false);
         }
       });
     }
-  }, [allPokemonCount]);
+  }, [allPokemonNames]);
 
   useEffect(() => {
-    const isInAllPokemonNames = allPokemonNames.includes(searchString)
+    const isInAllPokemonNames = allPokemonNames?.includes(searchString)
     const isAlreadyFetched = fetchedPokemons.some((pokemon) => pokemon.name === searchString);
 
     if (isInAllPokemonNames && !isAlreadyFetched) {
@@ -165,48 +151,16 @@ function App() {
     <main style={{width: '100%'}}>
       <Header/>
 
+      <Toolbar allPokemonNames={allPokemonNames}
+               onHandleSearch={handleSearch}
+               onHandleSortChange={handleSortChange}
+               sorting={sorting}
+               onHandleDirectionChange={handleDirectionChange}
+               fetchedPokemonLength={fetchedPokemons.length}
+               filteredPokemonLength={filteredPokemons.length}/>
+
       <section className="pokecard-overview">
-        <div className="search-sorting_container">
-          <Search allPokemonNames={allPokemonNames}
-                  onSearchStart={handleSearch}/>
-
-          <div className="sorting_container">
-            <label htmlFor="sort">Sortieren nach</label>
-
-            <div className="sorting-input_container">
-              <select name="sort" id="sort"
-                      onChange={handleSortChange}>
-                {sortingOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {sorting.direction === "asc" ? (
-                  <GoSortAsc size={24}
-                             className="direction-icon"
-                             title="Aktuell aufsteigend sortiert"
-                             onClick={handleDirectionChange}/>)
-                : <GoSortDesc size={24}
-                              className="direction-icon"
-                              title="Aktuell absteigend sortiert"
-                              onClick={handleDirectionChange}/>}
-            </div>
-          </div>
-        </div>
-
-        {fetchedPokemons.length > 0 && <div className="number-loaded">
-          Es sind {fetchedPokemons.length} von {allPokemonCount} Pokemon geladen.
-        </div>
-        }
-
-        {fetchedPokemons.length !== filteredPokemons.length && (
-          <div id="Number-filtered"
-               className="number-loaded d-none">
-            Es wurde{filteredPokemons.length > 1 ? "n" : ""} darin {filteredPokemons.length} Pokemon gefunden.
-          </div>
-        )}
-
-        <div id="Pokemon-cards"
-             className="pokemon-cards-container">
+        <div className="pokemon-cards-container">
           {filteredPokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id}
                          pokemon={pokemon}
