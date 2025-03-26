@@ -5,13 +5,13 @@ import { NamedAPIResourceList, Pokemon } from 'pokenode-ts';
 import Pokeball from './assets/images/favicon_pokeball.png';
 import PokemonCard from './components/PokemonCard/PokemonCard.tsx';
 import Header from './components/Header/Header.tsx';
-import { fetchPokemonById, fetchPokemonByName, fetchPokemonList } from './api/pokemonAPI.ts';
+import Toolbar from "./components/Toolbar/Toolbar.tsx";
 import Footer from './components/Footer/Footer.tsx';
 import Pokedex from './components/Pokedex/Pokedex.tsx';
+import { fetchPokemonById, fetchPokemonByName, fetchPokemonList } from './api/pokemonAPI.ts';
 import { Sorting } from './models/enums.ts';
+import { ExtendedPokemon, Sort } from "./models/interfaces.ts";
 import { getPokemonIdRandomArray, sortPokemon } from "./helper/helper.ts";
-import { Sort } from "./models/interfaces.ts";
-import Toolbar from "./components/Toolbar/Toolbar.tsx";
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
   const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
 
   const [isPokedexOpen, setIsPokedexOpen] = useState<boolean>(true);
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<ExtendedPokemon | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +33,7 @@ function App() {
   const [morePokemonInput, setMorePokemonInput] = useState(20)
 
   const openPokedex = (pokemon: Pokemon) => {
-    setSelectedPokemon(pokemon);
+    setSelectedPokemon(pokemon as ExtendedPokemon);
     setIsPokedexOpen(true);
   };
 
@@ -81,13 +81,13 @@ function App() {
   const handleNextPokemon = () => {
     const selectedId = filteredPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
     const nextPokemon = filteredPokemons[Math.min(selectedId + 1, filteredPokemons.length - 1)]
-    setSelectedPokemon(nextPokemon)
+    setSelectedPokemon(nextPokemon as ExtendedPokemon)
   }
 
   const handlePrevPokemon = () => {
     const selectedId = filteredPokemons.findIndex((poke) => selectedPokemon?.id === poke.id)
     const prevPokemon = filteredPokemons[Math.max(selectedId - 1, 0)]
-    setSelectedPokemon(prevPokemon)
+    setSelectedPokemon(prevPokemon as ExtendedPokemon)
   }
 
   const handleSearch = (search: string) => {

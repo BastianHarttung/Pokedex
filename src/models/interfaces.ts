@@ -9,6 +9,23 @@ export interface PokemonWithSound extends Pokemon {
   };
 }
 
+interface ShowdownSprites {
+  front_default: string | null;
+  front_shiny: string | null;
+  back_default: string | null;
+  back_shiny: string | null;
+}
+
+interface ExtendedOtherSprites extends NonNullable<Pokemon["sprites"]["other"]> {
+  showdown: ShowdownSprites;
+}
+
+export interface ExtendedPokemon extends Pokemon {
+  sprites: Pokemon["sprites"] & {
+    other?: ExtendedOtherSprites;
+  }
+}
+
 export interface Sort {
   sorting: Sorting,
   direction: SortDirection

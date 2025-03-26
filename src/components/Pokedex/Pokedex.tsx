@@ -1,13 +1,12 @@
 import './Pokedex.scss';
 import { useEffect, useRef, useState } from 'react';
-import { Pokemon } from 'pokenode-ts';
 import PokedexBG from '../../assets/images/pokedex-bg.png';
-import { PokemonWithSound } from '../../models/interfaces.ts';
+import { ExtendedPokemon, PokemonWithSound } from '../../models/interfaces.ts';
 import { getTypeIcon, getType } from '../../constants/typeIcons.ts';
 
 
 interface PokedexProps {
-  pokemon: Pokemon | null;
+  pokemon: ExtendedPokemon | null;
   onClose: () => void;
   onNextPokemon: () => void;
   onPrevPokemon: () => void;
@@ -24,9 +23,8 @@ const Pokedex = ({pokemon, onClose, onNextPokemon, onPrevPokemon}: PokedexProps)
   const picturesPokedex: string[] = [pokemon?.sprites.other?.dream_world.front_default,
     pokemon?.sprites.other?.["official-artwork"].front_default,
     pokemon?.sprites.other?.home.front_default,
-    pokemon?.sprites.other?.showdown.front_default,
-  ].filter((img: string | null) => img !== null && img !== undefined)
-
+    pokemon?.sprites.other?.showdown?.front_default,
+  ].filter((img): img is string => !!img);
 
   const maxStat = Math.max(pokemon?.stats[0].base_stat || 0,
     pokemon?.stats[1].base_stat || 0,

@@ -1,5 +1,6 @@
 import './Footer.scss';
 import { FaGithub } from "react-icons/fa";
+import packageJson from "../../../package.json"
 
 
 const Footer = () => {
@@ -11,9 +12,10 @@ const Footer = () => {
         </div>
 
         <div className="copyright">
-          <div>© by Bastian Harttung</div>
+          <div>©20{packageJson.version} by</div>
           <a href="https://github.com/BastianHarttung"
              target="_blank">
+            Bastian Harttung
             <FaGithub size={24}/>
           </a>
         </div>
